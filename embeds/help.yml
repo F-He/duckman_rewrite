@@ -1,5 +1,6 @@
 header:
   title: __**Current Commands**__
+  description:
   url: https://gwo.io
 
 fields:
@@ -33,3 +34,5 @@ fields:
       **!skill** - Set your skills
 
 footer: Mainly developed by Grewoss | Avatar design by Grassmou
+
+show_thumbnail: True

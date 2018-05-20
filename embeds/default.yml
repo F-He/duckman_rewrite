@@ -1,6 +1,7 @@
 header:
   title: Header_name_here
-  url: url_here
+  description: description_here # Muss da sein kann aber leer bleiben
+  url: url_here # Wenn keine URL gebraucht wird "https://gwo.io" benutzen
 
 fields:
   1:
@@ -11,7 +12,10 @@ fields:
     description: description_here
   # Hier koennen beliebig viele fields hin.
 
+# Footer ist optional.
 footer: footer_here
 
 # Color ist optional.
 color: 0xb02fbc
+# show_thumbnail ist auch optional und ist wenn nicht angegeben False!
+show_thumbnail: False

@@ -16,7 +16,11 @@ async def on_ready():
     embedgenerator = EmbedGenerator(bot)
 
 @bot.command()
-async def help(ctx):
+async def help(ctx, *args):
     await ctx.send(embed=await embedgenerator.get_embed("help"))
+
+@bot.command()
+async def github(ctx):
+    await ctx.send(embed=await embedgenerator.get_embed("github"))
 
 bot.run(TOKEN)
