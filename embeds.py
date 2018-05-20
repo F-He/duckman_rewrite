@@ -1,37 +1,48 @@
 import discord
+import yaml
 
+BOT_COLOR = 0x547e34
 
 class EmbedGenerator(object):
-	async def __init__:
+	def __init__(self, bot):
+		self._bot = bot
+		self._embed_names = []
+		self._all_embeds = {}
 
-	async def get_help_embed(ctx, arg):
-		help_dict = {"xp": discord.Embed}
+		self.generateEmbed("embeds/help.yml", "help")
+		
 
-		HELP_EMBED = discord.Embed(title="__**Current Commands**__", color=0x547e34, url="https://gwo.io")
-		HELP_EMBED.add_field(name="General Commands",
-				value="**!help** - Sends this message\n"
-					"**!github** - Duckman's Github repository\n"
-					"**!ping** - Get Duckman's ping\n"
-					"**!who** - Shows how many people are on the server\n"
-					"**!tut_code** - Links to the tutorial code\n"
-					"**!gamble** - Gamble & win XP"
-			)
-		HELP_EMBED.add_field(name="User Commands",
-			value="**!xp** - See your XP\n"
-					"**!xp @username @username2 @username3...** - See the XP of multiple people\n"
-					"**!lb** - XP leaderboard\n"
-					"**!level** - See your level\n"
-					"**!avg_xp** - See the average XP\n"
-					"**!me** - See information about yourself\n"
-					"**!v_helper** - Vote for someone to become helper"
-			)
-		HELP_EMBED.add_field(name="Role Commands",
-			value="**!role** - Set your roles\n"
-					"**!r_role** - Remove your roles\n"
-					"**!myrole** - Set your color role\n"
-					"**!skill** - Set your skills"
-			)
-		HELP_EMBED.set_footer(text="Mainly developed by Grewoss | Avatar design by Grassmou")
-		HELP_EMBED.set_thumbnail(url=ctx.bot.user.avatar_url)
-		return HELP_EMBED
+	def generateEmbed(self, path: str, name: str):
+		with open(path, 'r', encoding='utf-8') as stream:
+			gen_dict = yaml.load(stream, Loader=yaml.Loader)
 
+		if "color" not in gen_dict:
+			gen_dict["color"] = BOT_COLOR
+		
+		gen_embed = discord.Embed(title=gen_dict["header"]["title"], color=gen_dict["color"], url=gen_dict["header"]["url"])
+		for field, content in gen_dict["fields"].items():
+			gen_embed.add_field(name=content["title"], value=content["description"])
+		gen_embed.set_footer(text=gen_dict["footer"])
+		gen_embed.set_thumbnail(url=self._bot.user.avatar_url)
+
+		self._embed_names.append(name)
+		self._all_embeds[name] = gen_embed
+	
+	async def get_all_names(self):
+		return self._embed_names
+
+
+	async def get_embed(self, name: str):
+		try:
+			return self._all_embeds[name]
+		except KeyError:
+			return None
+	
+	
+	async def get_all_embed(self):
+		return self._all_embeds
+
+
+
+if __name__ == '__main__':
+	selsdagadsfg = EmbedGenerator("bot")

@@ -1,0 +1,17 @@
+header:
+  title: Header_name_here
+  url: url_here
+
+fields:
+  1:
+    title: title_here
+    description: description_here
+  2:
+    title: title_here
+    description: description_here
+  # Hier koennen beliebig viele fields hin.
+
+footer: footer_here
+
+# Color ist optional.
+color: 0xb02fbc
