@@ -10,8 +10,8 @@ class EmbedGenerator(object):
 		self._all_embeds = {}
 
 
-		self.generateEmbed("embeds/help.yml", "help")
-		self.generateEmbed("embeds/github.yml", "github")
+		self.generateEmbed("./embeds/help.yml", "help")
+		self.generateEmbed("./embeds/github.yml", "github")
 		
 
 	def generateEmbed(self, path: str, name: str):

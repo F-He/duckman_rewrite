@@ -1,7 +1,7 @@
 import discord
-from embeds import EmbedGenerator
+from src.embeds import EmbedGenerator
 from discord.ext import commands
-from secrets import BOT_TOKEN as TOKEN
+from src.secrets import BOT_TOKEN as TOKEN
 
 
 bot = commands.Bot(command_prefix='~')
