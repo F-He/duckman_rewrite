@@ -4,7 +4,6 @@ from discord.ext import commands
 from src.secrets import *
 from src.database import Database
 
-
 bot = commands.Bot(command_prefix='~')
 bot.remove_command('help')
 

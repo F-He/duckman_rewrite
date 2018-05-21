@@ -15,6 +15,13 @@ class EmbedGenerator(object):
 		
 
 	def generateEmbed(self, path: str, name: str):
+		"""
+		Generate an Embed based on an YAML File.
+
+		:path: The path to the YAML File.
+		:name: The name to access the Embed later.
+		:return: The generated Embed.
+		"""
 		with open(path, 'r', encoding='utf-8') as stream:
 			gen_dict = yaml.load(stream, Loader=yaml.Loader)
 		gen_dict = check_dict(gen_dict)
@@ -31,12 +38,20 @@ class EmbedGenerator(object):
 
 		self._embed_names.append(name)
 		self._all_embeds[name] = gen_embed
+		return gen_embed
 	
 	async def get_all_names(self):
+		"""
+		Gets the Names of all loaded Embeds.
+		"""
 		return self._embed_names
 
 
 	async def get_embed(self, name: str):
+		"""
+		Get a embed by it's name.
+		:return: Returns the Embed. None if Embed not found!
+		"""
 		try:
 			return self._all_embeds[name]
 		except KeyError:
@@ -44,6 +59,9 @@ class EmbedGenerator(object):
 	
 	
 	async def get_all_embed(self):
+		"""
+		Get all loaded embeds.
+		"""
 		return self._all_embeds
 
 
