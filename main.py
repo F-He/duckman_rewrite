@@ -7,16 +7,22 @@ from src.database import Database
 bot = commands.Bot(command_prefix='~')
 bot.remove_command('help')
 
-database = Database(MONGO_DB_KEY)
+database = Database("grewoss")
 
 embedgenerator = None
 
 
 @bot.event
 async def on_ready():
-    print("Ready")
     global embedgenerator
     embedgenerator = EmbedGenerator(bot)
+    for guild in bot.guilds:
+        for role in guild.roles:
+            await database.create_role(role.name, role.id)
+        for user in guild.members:
+            await database.create_user(user)
+    print("done")
+
 
 @bot.command(aliases=["?", "hilfe"])
 async def help(ctx, *args):
@@ -28,6 +34,6 @@ async def github(ctx):
 
 @bot.command()
 async def xp(ctx):
-    await ctx.send("Du hast: {}".format(await database.get_user_xp(ctx.message.author.id)))
+    await ctx.send(await database.find_user(ctx.message.author.id))
 
 bot.run(BOT_TOKEN)

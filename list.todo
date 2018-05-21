@@ -5,9 +5,15 @@ Todo next:
     ☐ me
     ☐ xp
     ☐ database managment
-    ☐ grundsätzlich mit Graphdatenbanken beschäftigen
+    ✔ grundsätzlich mit Graphdatenbanken beschäftigen @done (5/21/2018, 11:39:52 PM)
     ☐ embed yaml guide in README
+
 
 Future:
     ☐ -gamble
     ☐ -v_helper
+
+
+Links:
+    http://py2neo.org/v4/ogm.html#py2neo.ogm.Property
+    https://discordpy.readthedocs.io/en/rewrite/ext/commands/api.html
