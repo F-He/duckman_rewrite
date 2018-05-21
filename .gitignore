@@ -7,3 +7,7 @@
 __pycache__/embeds.cpython-36.pyc
 __pycache__/secrets.cpython-36.pyc
 secrets.py
+src/__pycache__/database.cpython-36.pyc
+src/__pycache__/embeds.cpython-36.pyc
+src/__pycache__/secrets.cpython-36.pyc
+

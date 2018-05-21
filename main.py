@@ -1,11 +1,15 @@
 import discord
 from src.embeds import EmbedGenerator
 from discord.ext import commands
-from src.secrets import BOT_TOKEN as TOKEN
+from src.secrets import *
+from src.database import Database
 
 
 bot = commands.Bot(command_prefix='~')
 bot.remove_command('help')
+
+database = Database(MONGO_DB_KEY)
+
 embedgenerator = None
 
 
@@ -15,7 +19,7 @@ async def on_ready():
     global embedgenerator
     embedgenerator = EmbedGenerator(bot)
 
-@bot.command()
+@bot.command(aliases=["?", "hilfe"])
 async def help(ctx, *args):
     await ctx.send(embed=await embedgenerator.get_embed("help"))
 
@@ -23,4 +27,8 @@ async def help(ctx, *args):
 async def github(ctx):
     await ctx.send(embed=await embedgenerator.get_embed("github"))
 
-bot.run(TOKEN)
+@bot.command()
+async def xp(ctx):
+    await ctx.send("Du hast: {}".format(await database.get_user_xp(ctx.message.author.id)))
+
+bot.run(BOT_TOKEN)
