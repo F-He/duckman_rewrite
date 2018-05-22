@@ -18,8 +18,8 @@ class EmbedGenerator(object):
 		"""
 		Generate an Embed based on an YAML File.
 
-		:path: The path to the YAML File.
-		:name: The name to access the Embed later.
+		:param path: The path to the YAML File.
+		:param name: The name to access the Embed later.
 		:return: The generated Embed.
 		"""
 		with open(path, 'r', encoding='utf-8') as stream:

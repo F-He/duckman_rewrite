@@ -1,6 +1,8 @@
 from py2neo import Node, Graph, Relationship
 from py2neo.ogm import GraphObject, Property, RelatedFrom, RelatedTo
+from src.exceptions import UserNotFoundException
 import discord
+import datetime
 
 
 class Role(GraphObject):
@@ -17,12 +19,15 @@ class User(GraphObject):
 
     id = Property()
     name = Property()
-    levels = Property()
+    level = Property()
     xp = Property()
     helper_votes = Property()
     last_vote_made_on = Property()
 
     roles = RelatedTo("Role", "HAS")
+    voted_for = RelatedTo("User", "VOTED")
+
+    got_vote_from = RelatedFrom("User", "VOTED")
 
 
 class Database(object):
@@ -36,7 +41,7 @@ class Database(object):
             user = User()
             user.id = discord_user.id
             user.name = discord_user.name
-            user.levels = 0
+            user.level = 0
             user.xp = 0
             user.helper_votes = 0
             user.last_vote_made_on = None
@@ -47,53 +52,58 @@ class Database(object):
             
             self.graph.push(user)
     
-    async def create_role(self, role_name: str, role_id: int):
-        if Role.select(self.graph, role_id).first() is None:
+    async def create_role(self, _role: discord.Role):
+        if Role.select(self.graph, _role.id).first() is None:
             role = Role()
-            role.id = role_id
-            role.name = role_name
+            role.id = _role.id
+            role.name = _role.name
             
             self.graph.push(role)
     
     async def find_user(self, _user_id: int):
+        """
+        Use this to find a User by it's id.
+        Throws a UserNotFoundException if user can't be found.
+        :return: User Object see database.py User(GraphObject) class.
+        """
         user = User.select(self.graph, _user_id).first()
-        print(user.xp)
-        print(user.levels)
-        return user
+        if user is not None:
+            return user
+        else:
+            raise UserNotFoundException(_user_id)
     
-    # async def connect_user_to_role(self, discord_id: int, role_id: int):
-    #     user_node = self.graph.find("User", "discord_id", discord_id)
-    #     role_node = self.graph.find("Role", "role_id", role_id)
-    #     relationship = Relationship(user_node, "HAS", role_node)
-    #     self.graph.create(relationship)
+    async def change_user(self, user: User):
+        self.graph.push(user)
 
-# class Database(object):
-#     def __init__(self, password: str):
-#         self.graph = Graph("bolt://localhost:7687", password=password)
-#         print(self.graph)
+    async def get_user_xp(self, _user_id: int):
+        user = await self.find_user(_user_id)
+        return user.xp
+
+    async def add_to_user_xp(self, _user_id:int, xp_to_add: int):
+        user = await self.find_user(_user_id)
+        user.xp = user.xp + xp_to_add
+        await self.change_user(user)
     
-
-#     async def create_user(self, discord_id: int, user_name: str):
-#         node = Node("User")
-#         node["discord_id"] = discord_id
-#         node["name"] = user_name
-#         node["level"] = 0
-#         node["xp"] = 0
-#         node["votes"] = 0
-
-#         self.graph.create(node)
+    async def get_user_level(self, _user_id: int):
+        user = await self.find_user(_user_id)
+        return user.level
     
-#     async def create_role(self, role_name: str, role_id: int):
-#         node = Node("Role")
-#         node["name"] = role_name
-#         node["role_id"] = role_id
-        
-#         self.graph.create(node)
+    async def set_user_level(self, _user_id: int, new_level: int):
+        user = await self.find_user(_user_id)
+        user.level = new_level
+        await self.change_user(user)
     
-#     async def connect_user_to_role(self, discord_id: int, role_id: int):
-#         user_node = self.graph.find("User", "discord_id", discord_id)
-#         role_node = self.graph.find("Role", "role_id", role_id)
-#         relationship = Relationship(user_node, "HAS", role_node)
-#         self.graph.create(relationship)
-
-
+    async def user_voted_for(self, _user_who_voted_id: int, _user_who_got_voted_id: int):
+        user_who_voted = await self.find_user(_user_who_voted_id)
+        user_who_got_voted = await self.find_user(_user_who_got_voted_id)
+        user_who_got_voted.helper_votes += user_who_got_voted + 1
+        user_who_voted.voted_for.add(user_who_got_voted)
+        await self.change_user(user_who_voted)
+    
+    async def get_last_vote_time(self, _user_id: int):
+        user = await self.find_user(_user_id)
+        return user.last_vote_made_on
+    
+    async def set_last_vote_time_to_now(self, _user_id: int):
+        user = await self.find_user(_user_id)
+        user.last_vote_made_on = datetime.datetime.utcnow()
