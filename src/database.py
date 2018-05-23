@@ -72,7 +72,7 @@ class Database(object):
         else:
             raise UserNotFoundException(_user_id)
     
-    async def change_user(self, user: User):
+    async def update_user(self, user: User):
         self.graph.push(user)
 
     async def get_user_xp(self, _user_id: int):
@@ -82,23 +82,26 @@ class Database(object):
     async def add_to_user_xp(self, _user_id:int, xp_to_add: int):
         user = await self.find_user(_user_id)
         user.xp = user.xp + xp_to_add
-        await self.change_user(user)
+        await self.update_user(user)
     
     async def get_user_level(self, _user_id: int):
         user = await self.find_user(_user_id)
-        return user.level
+        if user.level is None:
+            await self.set_user_level(_user_id, 0)
+            return 0
+        return int(user.level)
     
     async def set_user_level(self, _user_id: int, new_level: int):
         user = await self.find_user(_user_id)
         user.level = new_level
-        await self.change_user(user)
+        await self.update_user(user)
     
     async def user_voted_for(self, _user_who_voted_id: int, _user_who_got_voted_id: int):
         user_who_voted = await self.find_user(_user_who_voted_id)
         user_who_got_voted = await self.find_user(_user_who_got_voted_id)
         user_who_got_voted.helper_votes += user_who_got_voted + 1
         user_who_voted.voted_for.add(user_who_got_voted)
-        await self.change_user(user_who_voted)
+        await self.update_user(user_who_voted)
     
     async def get_last_vote_time(self, _user_id: int):
         user = await self.find_user(_user_id)
@@ -107,3 +110,4 @@ class Database(object):
     async def set_last_vote_time_to_now(self, _user_id: int):
         user = await self.find_user(_user_id)
         user.last_vote_made_on = datetime.datetime.utcnow()
+        await self.update_user(user)

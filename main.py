@@ -4,19 +4,21 @@ from discord.ext import commands
 from src.secrets import BOT_TOKEN
 from src.database import Database
 from src.exceptions import UserNotFoundException
+from src.levelSystem import LevelSystem
 
 bot = commands.Bot(command_prefix='~')
 bot.remove_command('help')
 
+embedgenerator = EmbedGenerator(bot)
+
 database = Database("grewoss")
 
-embedgenerator = None
+levelsystem = LevelSystem(database, embedgenerator)
 
 
 @bot.event
 async def on_ready():
-    global embedgenerator
-    embedgenerator = EmbedGenerator(bot)
+    await embedgenerator.load_embeds()
     guild_step = 100 / len(bot.guilds)
     guild_progress = 0
     for guild in bot.guilds:
@@ -41,6 +43,9 @@ async def on_ready():
 async def on_message(message):
     await bot.process_commands(message)
     await database.add_to_user_xp(message.author.id, 2)
+    level_message = await levelsystem.check_level(message.author)
+    if level_message is not None:
+        await message.channel.send(embed=level_message)
 
 @bot.command()
 async def vote(ctx, arg1):
@@ -75,5 +80,10 @@ async def github(ctx):
 @bot.command()
 async def xp(ctx):
     await ctx.send(await database.get_user_xp(ctx.message.author.id))
+
+@bot.command()
+async def set_level(ctx, user, level):
+    await database.set_user_level(ctx.message.mentions[0].id, level)
+    await ctx.send("Level Set!")
 
 bot.run(BOT_TOKEN)

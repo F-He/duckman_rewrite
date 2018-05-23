@@ -5,10 +5,10 @@ Todo next:
     ☐ me
     ✔ xp @done (5/22/2018, 10:35:57 PM)
     ☐ Advanced XP System (Spam Protection)
-    ☐ database managment
+    ✔ database managment @done (5/23/2018, 11:50:00 PM)
     ✔ grundsätzlich mit Graphdatenbanken beschäftigen @done (5/21/2018, 11:39:52 PM)
-    ☐ embed yaml guide in README
-    ☐ if user not found create one
+    ✔ embed yaml guide in README @done (5/22/2018, 11:47:05 PM)
+    ☐ if user not found create one (in find_user() function database.py)
 
 
 Future:

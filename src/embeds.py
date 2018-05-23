@@ -9,11 +9,10 @@ class EmbedGenerator(object):
 		self._embed_names = []
 		self._all_embeds = {}
 
-
+	async def load_embeds(self):
 		self.generateEmbed("./embeds/help.yml", "help")
 		self.generateEmbed("./embeds/github.yml", "github")
 		
-
 	def generateEmbed(self, path: str, name: str):
 		"""
 		Generate an Embed based on an YAML File.
@@ -38,6 +37,12 @@ class EmbedGenerator(object):
 
 		self._embed_names.append(name)
 		self._all_embeds[name] = gen_embed
+		return gen_embed
+	
+	async def generateLevelEmbed(self, user: discord.Member, level: int, value: dict):
+		gen_embed = discord.Embed(title="Level Up!!", description="You're now Level {}!".format(level))
+		if value["rewards"] is not None:
+			gen_embed.add_field(name="Rewards", value=value["rewards"])
 		return gen_embed
 	
 	async def get_all_names(self):
