@@ -37,6 +37,10 @@ class Database(object):
     
 
     async def create_user(self, discord_user: discord.Member):
+        """
+        Returns True if a new user has been created.
+        Else False
+        """
         if User.select(self.graph, discord_user.id).first() is None:
             user = User()
             user.id = discord_user.id
@@ -46,11 +50,10 @@ class Database(object):
             user.helper_votes = 0
             user.last_vote_made_on = None
 
-            for _role in discord_user.roles:
-                new_role = Role.select(self.graph, _role.id).first()
-                user.roles.add(new_role)
+            user = await self._raw_update_user_roles(discord_user, user)
             
             self.graph.push(user)
+            return True
     
     async def create_role(self, _role: discord.Role):
         if Role.select(self.graph, _role.id).first() is None:
@@ -74,6 +77,18 @@ class Database(object):
     
     async def update_user(self, user: User):
         self.graph.push(user)
+    
+    async def update_user_roles(self, discord_user: discord.Member):
+        raw_user = await self.find_user(discord_user.id)
+        user = await self._raw_update_user_roles(discord_user, raw_user)
+        await self.update_user(user)
+    
+    async def _raw_update_user_roles(self, discord_user: discord.Member, user: User):
+        for _role in discord_user.roles:
+                if not _role.is_default():
+                    new_role = Role.select(self.graph, _role.id).first()
+                    user.roles.add(new_role)
+        return user
 
     async def get_user_xp(self, _user_id: int):
         user = await self.find_user(_user_id)
@@ -99,7 +114,7 @@ class Database(object):
     async def user_voted_for(self, _user_who_voted_id: int, _user_who_got_voted_id: int):
         user_who_voted = await self.find_user(_user_who_voted_id)
         user_who_got_voted = await self.find_user(_user_who_got_voted_id)
-        user_who_got_voted.helper_votes += user_who_got_voted + 1
+        user_who_got_voted.helper_votes += user_who_got_voted.helper_votes + 1
         user_who_voted.voted_for.add(user_who_got_voted)
         await self.update_user(user_who_voted)
     

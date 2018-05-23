@@ -32,7 +32,8 @@ async def on_ready():
             role_progress += role_step
             print(f"Role Progress: {int(role_progress)}%")
         for user in guild.members:
-            await database.create_user(user)
+            if not await database.create_user(user):
+                await database.update_user_roles(user)
             member_progress += member_step
             print(f"Member Progress: {int(member_progress)}%")
         guild_progress += guild_step
