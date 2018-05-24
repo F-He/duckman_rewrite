@@ -50,7 +50,7 @@ class Database(object):
             user.helper_votes = 0
             user.last_vote_made_on = None
 
-            user = await self._raw_update_user_roles(discord_user, user)
+            user = await self.role_update_loop(discord_user, user)
             
             self.graph.push(user)
             return True
@@ -80,10 +80,15 @@ class Database(object):
     
     async def update_user_roles(self, discord_user: discord.Member):
         raw_user = await self.find_user(discord_user.id)
-        user = await self._raw_update_user_roles(discord_user, raw_user)
+        user = await self.role_update_loop(discord_user, raw_user)
         await self.update_user(user)
     
-    async def _raw_update_user_roles(self, discord_user: discord.Member, user: User):
+    async def role_update_loop(self, discord_user: discord.Member, user: User):
+        """
+        Loops trough every role and links it inside the database.
+        :param :
+        :returns: A Database User Object
+        """
         for _role in discord_user.roles:
                 if not _role.is_default():
                     new_role = Role.select(self.graph, _role.id).first()

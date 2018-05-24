@@ -23,3 +23,15 @@ class LevelSystem():
                     await self._database.set_user_level(_user.id, int(key))
                     return await self._embedgenerator.generateLevelEmbed(_user, int(key), value)
         return None
+    
+    async def set_user_level(self, user_id: int, level: int):
+        await self._database.set_user_level(user_id, level)
+
+    async def get_user_level(self, user_id: int):
+        return await self._database.get_user_level(user_id)
+    
+    async def add_to_user_xp(self, user_id: int, xp_to_add: int):
+        await self._database.add_to_user_xp(user_id, xp_to_add)
+    
+    async def get_user_xp(self, user_id: int):
+        return await self._database.get_user_xp(user_id)

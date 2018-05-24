@@ -43,7 +43,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
-    await database.add_to_user_xp(message.author.id, 2)
+    await levelsystem.add_to_user_xp(message.author.id, 2)
     level_message = await levelsystem.check_level(message.author)
     if level_message is not None:
         await message.channel.send(embed=level_message)
@@ -80,11 +80,11 @@ async def github(ctx):
 
 @bot.command()
 async def xp(ctx):
-    await ctx.send(await database.get_user_xp(ctx.message.author.id))
+    await ctx.send(await levelsystem.get_user_xp(ctx.message.author.id))
 
 @bot.command()
 async def set_level(ctx, user, level):
-    await database.set_user_level(ctx.message.mentions[0].id, level)
+    await levelsystem.set_user_level(ctx.message.mentions[0].id, level)
     await ctx.send("Level Set!")
 
 bot.run(BOT_TOKEN)
