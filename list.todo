@@ -11,7 +11,8 @@ Todo next:
     ✔ grundsätzlich mit Graphdatenbanken beschäftigen @done (5/21/2018, 11:39:52 PM)
     ✔ embed yaml guide in README @done (5/22/2018, 11:47:05 PM)
     ☐ if user not found create one (in find_user() function database.py)
-    ☐ Think about the XP system... Might add a new currency?
+    ☐ Think about the XP system... Might add a new currency? 
+    ☐ Achievement System (Achievements im private chat announcen)
 
 Channel Tacker:
     ☐ favorite channel tracker
@@ -21,6 +22,22 @@ Channel Tacker:
 Future:
     ☐ -gamble
     ☐ -v_helper
+
+
+Idea's:
+    (Currency name ideas: Ducks)
+
+    man kann sich vllcht currency verdienen, 
+    indem man bestimmte aufgaben/quests erledigt 
+    zB. features bei duckman implementieren oder 
+    5-mal hinternander gamble gewinnen oder so kp
+
+    milestone achievements (z.B. 1000 gambles won, 10000 msg send)
+
+    Shop system?!
+        XP Multiplikatoren
+        Vielleicht Custom Role Color...
+
 
 
 Links:

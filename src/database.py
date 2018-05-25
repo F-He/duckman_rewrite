@@ -5,7 +5,7 @@ import discord
 import datetime
 
 
-class Role(GraphObject):
+class Role(_GraphObject):
     __primarykey__ = "id"
 
     id = Property()
@@ -14,7 +14,7 @@ class Role(GraphObject):
     users = RelatedFrom("User", "HAS")
 
 
-class User(GraphObject):
+class User(_GraphObject):
     __primarykey__ = "id"
 
     id = Property()
@@ -31,17 +31,18 @@ class User(GraphObject):
 
 
 class Database(object):
-    def __init__(self, password: str):
-        self.graph = Graph("bolt://localhost:7687", password=password)
-        print(self.graph)
+    def __init__(self, password: str, bot):
+        self._graph = Graph("bolt://localhost:7687", password=password)
+        self._bot = bot
+        print(self._graph)
     
 
-    async def create_user(self, discord_user: discord.Member):
+    async def create_user(self, discord_user: discord.User):
         """
         Returns True if a new user has been created.
         Else False
         """
-        if User.select(self.graph, discord_user.id).first() is None:
+        if User.select(self._graph, discord_user.id).first() is None:
             user = User()
             user.id = discord_user.id
             user.name = discord_user.name
@@ -52,31 +53,38 @@ class Database(object):
 
             user = await self.role_update_loop(discord_user, user)
             
-            self.graph.push(user)
+            self._graph.push(user)
             return True
     
     async def create_role(self, _role: discord.Role):
-        if Role.select(self.graph, _role.id).first() is None:
+        if Role.select(self._graph, _role.id).first() is None:
             role = Role()
             role.id = _role.id
             role.name = _role.name
             
-            self.graph.push(role)
+            self._graph.push(role)
     
-    async def find_user(self, _user_id: int):
+    async def find_user(self, _user_id: int, selfcall: bool = False):
         """
         Use this to find a User by it's id.
         Throws a UserNotFoundException if user can't be found.
         :return: User Object see database.py User(GraphObject) class.
         """
-        user = User.select(self.graph, _user_id).first()
+        user = User.select(self._graph, _user_id).first()
         if user is not None:
             return user
         else:
-            raise UserNotFoundException(_user_id)
+            discord_user = await self._bot.get_user(_user_id)
+            if discord_user is not None:
+                if await self.create_user(discord_user) and not selfcall:
+                    return await self.find_user(_user_id, True)
+                else:
+                    raise UserNotFoundException(_user_id)
+            else:
+                raise UserNotFoundException(_user_id)
     
     async def update_user(self, user: User):
-        self.graph.push(user)
+        self._graph.push(user)
     
     async def update_user_roles(self, discord_user: discord.Member):
         raw_user = await self.find_user(discord_user.id)
@@ -91,7 +99,7 @@ class Database(object):
         """
         for _role in discord_user.roles:
                 if not _role.is_default():
-                    new_role = Role.select(self.graph, _role.id).first()
+                    new_role = Role.select(self._graph, _role.id).first()
                     user.roles.add(new_role)
         return user
 

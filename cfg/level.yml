@@ -1,15 +1,150 @@
-1: 
-  xp: 50
-  rewards: Null
+1:
+  rewards: null
+  xp: 0
 2:
+  rewards: null
   xp: 100
-  rewards: Ability to set custom roles.
 3:
-  xp: 150
-  rewards: Null
+  rewards: null
+  xp: 300
 4:
-  xp: 200
-  rewards: Null
+  rewards: null
+  xp: 600
 5:
-  xp: 250
-  rewards: Null
+  rewards: null
+  xp: 1000
+6:
+  rewards: null
+  xp: 1500
+7:
+  rewards: null
+  xp: 2100
+8:
+  rewards: null
+  xp: 2800
+9:
+  rewards: null
+  xp: 3600
+10:
+  rewards: null
+  xp: 4500
+11:
+  rewards: null
+  xp: 5500
+12:
+  rewards: null
+  xp: 6600
+13:
+  rewards: null
+  xp: 7800
+14:
+  rewards: null
+  xp: 9100
+15:
+  rewards: null
+  xp: 10500
+16:
+  rewards: null
+  xp: 12000
+17:
+  rewards: null
+  xp: 13600
+18:
+  rewards: null
+  xp: 15300
+19:
+  rewards: null
+  xp: 17100
+20:
+  rewards: null
+  xp: 19000
+21:
+  rewards: null
+  xp: 21000
+22:
+  rewards: null
+  xp: 23100
+23:
+  rewards: null
+  xp: 25300
+24:
+  rewards: null
+  xp: 27600
+25:
+  rewards: null
+  xp: 30000
+26:
+  rewards: null
+  xp: 32500
+27:
+  rewards: null
+  xp: 35100
+28:
+  rewards: null
+  xp: 37800
+29:
+  rewards: null
+  xp: 40600
+30:
+  rewards: null
+  xp: 43500
+31:
+  rewards: null
+  xp: 46500
+32:
+  rewards: null
+  xp: 49600
+33:
+  rewards: null
+  xp: 52800
+34:
+  rewards: null
+  xp: 56100
+35:
+  rewards: null
+  xp: 59500
+36:
+  rewards: null
+  xp: 63000
+37:
+  rewards: null
+  xp: 66600
+38:
+  rewards: null
+  xp: 70300
+39:
+  rewards: null
+  xp: 74100
+40:
+  rewards: null
+  xp: 78000
+41:
+  rewards: null
+  xp: 82000
+42:
+  rewards: null
+  xp: 86100
+43:
+  rewards: null
+  xp: 90300
+44:
+  rewards: null
+  xp: 94600
+45:
+  rewards: null
+  xp: 99000
+46:
+  rewards: null
+  xp: 103500
+47:
+  rewards: null
+  xp: 108100
+48:
+  rewards: null
+  xp: 112800
+49:
+  rewards: null
+  xp: 117600
+50:
+  rewards: null
+  xp: 122500
