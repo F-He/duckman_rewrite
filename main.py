@@ -11,7 +11,7 @@ bot.remove_command('help')
 
 embedgenerator = EmbedGenerator(bot)
 
-database = Database("grewoss")
+database = Database("grewoss", bot)
 
 levelsystem = LevelSystem(database, embedgenerator)
 
@@ -67,8 +67,6 @@ async def vote(ctx, arg1):
                 await database.create_user(ctx.message.mentions[0])
                 await database.user_voted_for(ctx.message.author.id, ctx.message.mentions[0].id)
                 await ctx.send(f"You voted successfully for {ctx.message.mentions[0].mention}")
-
-
 
 @bot.command(aliases=["?", "hilfe"])
 async def help(ctx, *args):

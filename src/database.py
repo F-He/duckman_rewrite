@@ -5,7 +5,7 @@ import discord
 import datetime
 
 
-class Role(_GraphObject):
+class Role(GraphObject):
     __primarykey__ = "id"
 
     id = Property()
@@ -14,7 +14,7 @@ class Role(_GraphObject):
     users = RelatedFrom("User", "HAS")
 
 
-class User(_GraphObject):
+class User(GraphObject):
     __primarykey__ = "id"
 
     id = Property()
