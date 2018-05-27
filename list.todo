@@ -10,9 +10,11 @@ Todo next:
     ✔ database managment @done (5/23/2018, 11:50:00 PM)
     ✔ grundsätzlich mit Graphdatenbanken beschäftigen @done (5/21/2018, 11:39:52 PM)
     ✔ embed yaml guide in README @done (5/22/2018, 11:47:05 PM)
-    ☐ if user not found create one (in find_user() function database.py)
+    ✔ if user not found create one (in find_user() function database.py) @done (5/25/2018, 10:43:22 PM)
     ☐ Think about the XP system... Might add a new currency? 
     ☐ Achievement System (Achievements im private chat announcen)
+    ☐ Welcome Message in Private chat
+    ☐ Rewrite Vote function (Coin for vote)
 
 Channel Tacker:
     ☐ favorite channel tracker

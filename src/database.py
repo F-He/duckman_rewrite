@@ -23,6 +23,7 @@ class User(GraphObject):
     xp = Property()
     helper_votes = Property()
     last_vote_made_on = Property()
+    currency = Property()
 
     roles = RelatedTo("Role", "HAS")
     voted_for = RelatedTo("User", "VOTED")
@@ -50,6 +51,7 @@ class Database(object):
             user.xp = 0
             user.helper_votes = 0
             user.last_vote_made_on = None
+            user.currency = 0
 
             user = await self.role_update_loop(discord_user, user)
             
@@ -138,4 +140,18 @@ class Database(object):
     async def set_last_vote_time_to_now(self, _user_id: int):
         user = await self.find_user(_user_id)
         user.last_vote_made_on = datetime.datetime.utcnow()
+        await self.update_user(user)
+    
+    async def get_currency(self, _user_id: int):
+        user = await self.find_user(_user_id)
+        return user.currency
+    
+    async def set_currency(self, _user_id: int, new_currency_amount: int):
+        user = await self.find_user(_user_id)
+        user.currency = new_currency_amount
+        await self.update_user(user)
+    
+    async def add_currency(self, _user_id: int, currency_to_add: int):
+        user = await self.find_user(_user_id)
+        user.currency = user.currency + currency_to_add
         await self.update_user(user)

@@ -1,11 +1,13 @@
 import discord
 import yaml
+from src.database import Database
 
 BOT_COLOR = 0x547e34
 
 class EmbedGenerator(object):
-	def __init__(self, bot):
+	def __init__(self, bot, database: Database):
 		self._bot = bot
+		self._database = database
 		self._embed_names = []
 		self._all_embeds = {}
 
@@ -40,9 +42,18 @@ class EmbedGenerator(object):
 		return gen_embed
 	
 	async def generateLevelEmbed(self, user: discord.Member, level: int, value: dict):
-		gen_embed = discord.Embed(title="Level Up!!", description="You're now Level {}!".format(level))
+		gen_embed = discord.Embed(title="Level Up!!", description="You're now Level {}!".format(level), color=BOT_COLOR)
 		if value["rewards"] is not None:
 			gen_embed.add_field(name="Rewards", value=value["rewards"])
+		return gen_embed
+	
+	async def generateMeEmbed(self, user: discord.Member):
+		databaseUser = await self._database.find_user(user.id)
+		gen_embed = discord.Embed(title=f"Info's about {user.name}", description="", color=BOT_COLOR)
+		gen_embed.add_field(name="XP:", value=databaseUser.xp, inline=True)
+		gen_embed.add_field(name="Level:", value=databaseUser.level, inline=True)
+		gen_embed.add_field(name="Current Votes:", value=databaseUser.helper_votes, inline= True)
+		gen_embed.add_field(name="Currency:", value=databaseUser.currency, inline=True)
 		return gen_embed
 	
 	async def get_all_names(self):
