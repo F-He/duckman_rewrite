@@ -67,7 +67,7 @@ class Database(object):
             user.helper_votes = 0
             user.last_vote_made_on = None
             user.currency = 0
-            fav_channel = None
+            user.fav_channel = None
             user.channels = str({})
 
             user = await self.role_update_loop(discord_user, user)

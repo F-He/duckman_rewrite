@@ -16,6 +16,7 @@ embedgenerator = EmbedGenerator(bot, database)
 levelsystem = LevelSystem(database, embedgenerator)
 
 
+"""EVENTS"""
 @bot.event
 async def on_ready():
     await embedgenerator.load_embeds()
@@ -30,7 +31,12 @@ async def on_ready():
                 await database.update_user_roles(user)
     print("done")
 
+@bot.event
+async def on_member_join(member):
+    await database.create_user(member)
 
+
+"""COMMANDS"""
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)

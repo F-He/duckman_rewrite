@@ -17,6 +17,7 @@ Todo next:
     ☐ Welcome Message in Private chat
     ☐ Rewrite Vote function (Coin for vote)
     ☐ detect_favorite_channel exec every hour
+    ☐ remove user from database on server leave
 
 Channel Tacker:
     ✔ favorite channel tracker @done (5/28/2018, 12:43:05 AM)
