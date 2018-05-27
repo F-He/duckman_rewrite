@@ -4,6 +4,7 @@ from src.exceptions import UserNotFoundException
 import discord
 import datetime
 import ast
+import operator
 
 
 class Channel(GraphObject):
@@ -36,6 +37,7 @@ class User(GraphObject):
     last_vote_made_on = Property()
     currency = Property()
     channels = Property()
+    fav_channel = Property()
 
     roles = RelatedTo("Role", "HAS")
     voted_for = RelatedTo("User", "VOTED")
@@ -65,6 +67,7 @@ class Database(object):
             user.helper_votes = 0
             user.last_vote_made_on = None
             user.currency = 0
+            fav_channel = None
             user.channels = str({})
 
             user = await self.role_update_loop(discord_user, user)
@@ -109,6 +112,14 @@ class Database(object):
                     raise UserNotFoundException(_user_id)
             else:
                 raise UserNotFoundException(_user_id)
+    
+    async def find_channel(self, _channel_id):
+        channel = Channel.select(self._graph, _channel_id).first()
+        if channel is not None:
+            return channel
+        else:
+            return None
+
     
     async def update_user(self, user: User):
         self._graph.push(user)
@@ -192,3 +203,19 @@ class Database(object):
         finally:
             user.channels = str(temporaryDictionary)
             await self.update_user(user)
+    
+    async def detect_favorite_channel(self, _user_id: int):
+        user = await self.find_user(_user_id)
+        channel = await self.get_favorite_channel(_user_id)
+        if channel is not None:
+            user.fav_channel = channel.name
+            user.favorite_channel.clear()
+            user.favorite_channel.add(channel)
+            await self.update_user(user)
+    
+    async def get_favorite_channel(self, _user_id: int):
+        user = await self.find_user(_user_id)
+        channelDictionary = ast.literal_eval(user.channels)
+        favorite_channel_id = max(channelDictionary.items(), key=operator.itemgetter(1))[0]
+        channel = await self.find_channel(favorite_channel_id)
+        return channel

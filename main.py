@@ -38,7 +38,8 @@ async def on_message(message):
     level_message = await levelsystem.check_level(message.author)
     if level_message is not None:
         await message.channel.send(embed=level_message)
-    await database.check_channel(message.author.id, int(message.channel.id))
+    await database.check_channel(message.author.id, message.channel.id)
+    await database.detect_favorite_channel(message.author.id)
 
 
 @bot.command()
