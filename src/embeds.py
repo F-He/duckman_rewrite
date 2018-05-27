@@ -97,4 +97,4 @@ def check_dict(_dict: dict):
 
 
 if __name__ == '__main__':
-	selsdagadsfg = EmbedGenerator("bot")
+	pass

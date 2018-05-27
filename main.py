@@ -19,25 +19,15 @@ levelsystem = LevelSystem(database, embedgenerator)
 @bot.event
 async def on_ready():
     await embedgenerator.load_embeds()
-    guild_step = 100 / len(bot.guilds)
-    guild_progress = 0
     for guild in bot.guilds:
-        role_step = 100 / len(guild.roles)
-        role_progress = 0
-        member_step = 100 / len(guild.members)
-        member_progress = 0
-
+        for channel in guild.channels:
+            if isinstance(channel, discord.TextChannel):
+                await database.create_channel(channel)
         for role in guild.roles:
             await database.create_role(role)
-            role_progress += role_step
-            print(f"Role Progress: {int(role_progress)}%")
         for user in guild.members:
             if not await database.create_user(user):
                 await database.update_user_roles(user)
-            member_progress += member_step
-            print(f"Member Progress: {int(member_progress)}%")
-        guild_progress += guild_step
-        print(f"Guild Progress: {int(guild_progress)}%")
     print("done")
 
 
@@ -48,6 +38,7 @@ async def on_message(message):
     level_message = await levelsystem.check_level(message.author)
     if level_message is not None:
         await message.channel.send(embed=level_message)
+    await database.check_channel(message.author.id, int(message.channel.id))
 
 
 @bot.command()

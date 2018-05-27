@@ -3,6 +3,17 @@ from py2neo.ogm import GraphObject, Property, RelatedFrom, RelatedTo
 from src.exceptions import UserNotFoundException
 import discord
 import datetime
+import ast
+
+
+class Channel(GraphObject):
+    __primarykey__ = "id"
+
+    id = Property()
+    name = Property()
+    total_messages = Property()
+
+    users = RelatedFrom("User", "ISFAVORITE")
 
 
 class Role(GraphObject):
@@ -24,9 +35,11 @@ class User(GraphObject):
     helper_votes = Property()
     last_vote_made_on = Property()
     currency = Property()
+    channels = Property()
 
     roles = RelatedTo("Role", "HAS")
     voted_for = RelatedTo("User", "VOTED")
+    favorite_channel = RelatedTo("Channel", "ISFAVORITE")
 
     got_vote_from = RelatedFrom("User", "VOTED")
 
@@ -52,11 +65,13 @@ class Database(object):
             user.helper_votes = 0
             user.last_vote_made_on = None
             user.currency = 0
+            user.channels = str({})
 
             user = await self.role_update_loop(discord_user, user)
             
             self._graph.push(user)
             return True
+        return False
     
     async def create_role(self, _role: discord.Role):
         if Role.select(self._graph, _role.id).first() is None:
@@ -65,6 +80,16 @@ class Database(object):
             role.name = _role.name
             
             self._graph.push(role)
+    
+    async def create_channel(self, _channel: discord.TextChannel):
+        if Channel.select(self._graph, _channel.id).first() is None:
+            channel = Channel()
+            channel.id = _channel.id
+            channel.name = _channel.name
+
+            channel.total_messages = 0
+
+            self._graph.push(channel)
     
     async def find_user(self, _user_id: int, selfcall: bool = False):
         """
@@ -76,7 +101,7 @@ class Database(object):
         if user is not None:
             return user
         else:
-            discord_user = await self._bot.get_user(_user_id)
+            discord_user = self._bot.get_user(_user_id)
             if discord_user is not None:
                 if await self.create_user(discord_user) and not selfcall:
                     return await self.find_user(_user_id, True)
@@ -155,3 +180,15 @@ class Database(object):
         user = await self.find_user(_user_id)
         user.currency = user.currency + currency_to_add
         await self.update_user(user)
+    
+    async def check_channel(self, _user_id: int, _channel_id: int):
+        user = await self.find_user(_user_id)
+        temporaryDictionary = ast.literal_eval(user.channels)
+        try:
+            value = temporaryDictionary[_channel_id]
+            temporaryDictionary[_channel_id] = value + 1
+        except KeyError:
+            temporaryDictionary[_channel_id] = 0
+        finally:
+            user.channels = str(temporaryDictionary)
+            await self.update_user(user)
