@@ -43,7 +43,8 @@ Idea's:
         XP Multiplikatoren
         Vielleicht Custom Role Color...
 
-
+Notes:
+    "MATCH (n) DETACH DELETE n"
 
 Links:
     http://py2neo.org/v4/ogm.html#py2neo.ogm.Property
