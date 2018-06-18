@@ -124,6 +124,10 @@ class Database(object):
 	async def update_user(self, user: User):
 		self._graph.push(user)
 	
+	async def delete_user_by_ID(self, _user_id: int):
+		user = self.find_user(_user_id)
+		self._graph.delete(user)
+	
 	async def update_user_roles(self, discord_user: discord.Member):
 		raw_user = await self.find_user(discord_user.id)
 		user = await self.role_update_loop(discord_user, raw_user)

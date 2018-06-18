@@ -34,9 +34,15 @@ async def on_ready():
 				await database.update_user_roles(user)
 	print("done")
 
+
 @bot.event
 async def on_member_join(member):
 	await database.create_user(member)
+
+
+@bot.event
+async def on_member_remove(member):
+	await database.delete_user_by_ID(member.id)
 
 
 """COMMANDS"""
@@ -52,6 +58,7 @@ async def on_message(message):
 
 
 @bot.command()
+@commands.guild_only()
 async def vote(ctx, user: discord.Member):
 	voter = ctx.message.author
 	if await duckUtils.userIsElegibleToVote(voter.id):
