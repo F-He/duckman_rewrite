@@ -12,12 +12,16 @@ Placeholder
 
 ## Contributing
 
-placeholder
+Placeholder
 
 ## Requirements
 
 * [Discord.py](https://github.com/Rapptz/discord.py/tree/rewrite)
 * [neo2py](https://github.com/technige/py2neo)
+
+## Adding a Command to the Help File(Command)
+
+Placeholder
 
 ## Creating Embeds with .YAML
 
