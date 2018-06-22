@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from src.embeds import EmbedGenerator
 from discord.ext import commands
 from src.secrets import BOT_TOKEN
@@ -27,11 +28,14 @@ async def on_ready():
 		for channel in guild.channels:
 			if isinstance(channel, discord.TextChannel):
 				await database.create_channel(channel)
+			await asyncio.sleep(0)
 		for role in guild.roles:
 			await database.create_role(role)
+			await asyncio.sleep(0)
 		for user in guild.members:
 			if not await database.create_user(user):
 				await database.update_user_roles(user)
+			await asyncio.sleep(0)
 	print("done")
 
 
@@ -69,15 +73,18 @@ async def vote(ctx, user: discord.Member):
 		else:
 			try:
 				await database.user_voted_for(voter.id, user.id)
+				await database.add_currency(voter.id, user.id)
 				await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
 			except UserNotFoundException as e:
 				if e.user_id == voter.id:
 					await database.create_user(voter)
 					await database.user_voted_for(voter.id, user.id)
+					await database.add_currency(voter.id, 1)
 					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
 				elif e.user_id == user.id:
 					await database.create_user(user)
 					await database.user_voted_for(voter.id, user.id)
+					await database.add_currency(voter.id, 1)
 					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
 	else:
 		await ctx.send("You can only vote once a week!")
@@ -90,6 +97,11 @@ async def vote_error(ctx, error):
 @bot.command(aliases=["?", "hilfe"])
 async def help(ctx, *args):
 	await ctx.send(embed=await embedgenerator.get_embed("help"))
+
+
+@bot.command()
+async def welcome(ctx):
+	await ctx.send(embed=await embedgenerator.get_embed("welcome"))
 
 
 @bot.command()

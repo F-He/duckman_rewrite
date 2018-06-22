@@ -1,0 +1,9 @@
+header:
+  title: __**Welcome**__
+  description: Willkommen auf dem Grewoss Server!
+  url: https://gwo.io
+
+fields:
+  1:
+    title: Test
+    description: Placeholder

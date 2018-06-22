@@ -16,8 +16,8 @@ Todo next:
         Coins for Achievements
     ☐ Welcome Message in Private chat
     ☐ Rewrite Vote function (Coin for vote)
-    ☐ detect_favorite_channel exec every hour
-    ☐ remove user from database on server leave
+    ✘ detect_favorite_channel exec every hour @cancelled (6/20/2018, 9:56:16 PM)
+    ✔ remove user from database on server leave @done (6/20/2018, 9:59:33 PM)
 
 Channel Tacker:
     ✔ favorite channel tracker @done (5/28/2018, 12:43:05 AM)
@@ -26,7 +26,7 @@ Channel Tacker:
 
 Future:
     ☐ -gamble
-    ☐ -v_helper
+    ✔ -v_helper @done (6/20/2018, 9:56:47 PM)
 
 
 Idea's:

@@ -14,6 +14,7 @@ class EmbedGenerator(object):
 	async def load_embeds(self):
 		self.generateEmbed("./embeds/help.yml", "help")
 		self.generateEmbed("./embeds/github.yml", "github")
+		self.generateEmbed("./embeds/welcome.yml", "welcome")
 		
 	def generateEmbed(self, path: str, name: str):
 		"""
