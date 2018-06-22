@@ -30,8 +30,8 @@ class LevelSystem():
     async def get_user_level(self, user_id: int):
         return await self._database.get_user_level(user_id)
     
-    async def add_to_user_xp(self, user_id: int, xp_to_add: int):
+    async def addXpTo(self, user_id: int, xp_to_add: int):
         await self._database.add_to_user_xp(user_id, xp_to_add)
     
-    async def get_user_xp(self, user_id: int):
+    async def getXpFrom(self, user_id: int):
         return await self._database.get_user_xp(user_id)

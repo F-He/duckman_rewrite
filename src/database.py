@@ -169,10 +169,15 @@ class Database(object):
 	async def user_voted_for(self, _user_who_voted_id: int, _user_who_got_voted_id: int):
 		user_who_voted = await self.find_user(_user_who_voted_id)
 		user_who_got_voted = await self.find_user(_user_who_got_voted_id)
-		user_who_got_voted.helper_votes += user_who_got_voted.helper_votes + 1
+		user_who_got_voted.helper_votes = user_who_got_voted.helper_votes + 1
 		user_who_voted.voted_for.add(user_who_got_voted)
 		await self.update_user(user_who_voted)
+		await self.update_user(user_who_got_voted)
 		await self.set_last_vote_time_to_now(_user_who_voted_id)
+	
+	async def getHelperVotes(self, user_id: int):
+		user = await self.find_user(user_id)
+		return int(user.helper_votes)
 	
 	async def get_last_vote_time(self, _user_id: int):
 		user = await self.find_user(_user_id)

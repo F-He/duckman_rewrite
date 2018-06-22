@@ -6,6 +6,7 @@ from src.secrets import BOT_TOKEN
 from src.database import Database
 from src.exceptions import UserNotFoundException
 from src.levelSystem import LevelSystem
+from src.currency import CurrencySystem
 from src.utils import Utils
 
 bot = commands.Bot(command_prefix='~')
@@ -17,7 +18,14 @@ embedgenerator = EmbedGenerator(bot, database)
 
 levelsystem = LevelSystem(database, embedgenerator)
 
+currencySystem = CurrencySystem(database)
+
 duckUtils = Utils(database)
+
+
+"""CHECKS"""
+def is_owner(ctx):
+	return ctx.author.id == 180546607626977280
 
 
 """EVENTS"""
@@ -42,6 +50,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
 	await database.create_user(member)
+	# await member.send(embed=await embedgenerator.get_embed("welcome")) #<<<<<<<<<<<<<
 
 
 @bot.event
@@ -53,7 +62,7 @@ async def on_member_remove(member):
 @bot.event
 async def on_message(message):
 	await bot.process_commands(message)
-	await levelsystem.add_to_user_xp(message.author.id, 2)
+	await levelsystem.addXpTo(message.author.id, 2)
 	level_message = await levelsystem.check_level(message.author)
 	if level_message is not None:
 		await message.channel.send(embed=level_message)
@@ -73,18 +82,18 @@ async def vote(ctx, user: discord.Member):
 		else:
 			try:
 				await database.user_voted_for(voter.id, user.id)
-				await database.add_currency(voter.id, user.id)
+				await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
 				await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
 			except UserNotFoundException as e:
 				if e.user_id == voter.id:
 					await database.create_user(voter)
 					await database.user_voted_for(voter.id, user.id)
-					await database.add_currency(voter.id, 1)
+					await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
 					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
 				elif e.user_id == user.id:
 					await database.create_user(user)
 					await database.user_voted_for(voter.id, user.id)
-					await database.add_currency(voter.id, 1)
+					await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
 					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
 	else:
 		await ctx.send("You can only vote once a week!")
@@ -111,10 +120,17 @@ async def github(ctx):
 
 @bot.command()
 async def xp(ctx):
-	await ctx.send(await levelsystem.get_user_xp(ctx.message.author.id))
+	await ctx.send(await levelsystem.getXpFrom(ctx.message.author.id))
 
 
 @bot.command()
+@commands.guild_only()
+async def role(ctx):
+	pass
+
+
+@bot.command()
+@commands.check(is_owner)
 async def set_level(ctx, user, level):
 	await levelsystem.set_user_level(ctx.message.mentions[0].id, level)
 	await ctx.send("Level Set!")
@@ -130,5 +146,10 @@ async def info(ctx, user: discord.Member = None):
 async def info_error(ctx, error):
 	if isinstance(error, commands.BadArgument):
 		await ctx.send(f">>Please use an valid Argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+
+
+
+
+
 
 bot.run(BOT_TOKEN)

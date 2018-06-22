@@ -43,7 +43,7 @@ class EmbedGenerator(object):
 		return gen_embed
 	
 	async def generateLevelEmbed(self, user: discord.Member, level: int, value: dict):
-		gen_embed = discord.Embed(title="Level Up!!", description="You're now Level {}!".format(level), color=BOT_COLOR)
+		gen_embed = discord.Embed(title="Level Up!!", description="{} is now Level {}!".format(user.name, level), color=BOT_COLOR)
 		if value["rewards"] is not None:
 			gen_embed.add_field(name="Rewards", value=value["rewards"])
 		return gen_embed
