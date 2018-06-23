@@ -78,7 +78,7 @@ async def vote(ctx, user: discord.Member):
 		if voter.id == user.id:
 			await ctx.send("You can't vote for yourself!")
 		elif len(ctx.message.mentions) > 1:
-			await ctx.send("You can only vote for 1 Person!")
+			await ctx.send("You can only vote for one person!")
 		else:
 			try:
 				await database.user_voted_for(voter.id, user.id)
@@ -100,10 +100,10 @@ async def vote(ctx, user: discord.Member):
 @vote.error
 async def vote_error(ctx, error):
 	if isinstance(error, commands.BadArgument):
-		await ctx.send(f">>Please use an valid Argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
 
-@bot.command(aliases=["?", "hilfe"])
+@bot.command(aliases=["?", "hilfe"]) # Unsure if this alias is intended for German users.
 async def help(ctx, *args):
 	await ctx.send(embed=await embedgenerator.get_embed("help"))
 
@@ -133,7 +133,7 @@ async def role(ctx):
 @commands.check(is_owner)
 async def set_level(ctx, user, level):
 	await levelsystem.set_user_level(ctx.message.mentions[0].id, level)
-	await ctx.send("Level Set!")
+	await ctx.send("Level set!")
 
 
 @bot.command()
@@ -145,7 +145,7 @@ async def info(ctx, user: discord.Member = None):
 @info.error
 async def info_error(ctx, error):
 	if isinstance(error, commands.BadArgument):
-		await ctx.send(f">>Please use an valid Argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
 
 

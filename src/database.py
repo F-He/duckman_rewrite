@@ -96,7 +96,7 @@ class Database(object):
 	
 	async def find_user(self, _user_id: int, selfcall: bool = False):
 		"""
-		Use this to find a User by it's id.
+		Use this to find a user by their id.
 		Throws a UserNotFoundException if user can't be found.
 		:return: User Object see database.py User(GraphObject) class.
 		"""
@@ -135,7 +135,7 @@ class Database(object):
 	
 	async def role_update_loop(self, discord_user: discord.Member, user: User):
 		"""
-		Loops trough every role and links it inside the database.
+		Loops through every role and links it inside the database.
 		:param :
 		:returns: A Database User Object
 		"""

@@ -18,7 +18,7 @@ class EmbedGenerator(object):
 		
 	def generateEmbed(self, path: str, name: str):
 		"""
-		Generate an Embed based on an YAML File.
+		Generate an embed based on an YAML File.
 
 		:param path: The path to the YAML File.
 		:param name: The name to access the Embed later.
@@ -60,14 +60,14 @@ class EmbedGenerator(object):
 	
 	async def get_all_names(self):
 		"""
-		Gets the Names of all loaded Embeds.
+		Gets the names of all loaded embeds.
 		"""
 		return self._embed_names
 
 
 	async def get_embed(self, name: str):
 		"""
-		Get a embed by it's name.
+		Get a embed by its name.
 		:return: Returns the Embed. None if Embed not found!
 		"""
 		try:
@@ -85,7 +85,7 @@ class EmbedGenerator(object):
 
 def check_dict(_dict: dict):
 	"""
-	Checks for Keys inside the loaded dictonary and creates the missing one's to prevent KeyError's
+	Checks for keys inside the loaded dictionary and creates the missing ones to prevent key errors.
 	"""
 	if "fields" not in _dict:
 		_dict["fields"] = None
