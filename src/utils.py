@@ -4,6 +4,7 @@ from src.database import Database
 
 voteCooldownInSeconds = 604800
 
+
 class Utils():
 	def __init__(self, db: Database):
 		self._database = db

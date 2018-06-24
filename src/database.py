@@ -120,7 +120,6 @@ class Database(object):
 		else:
 			return None
 
-	
 	async def update_user(self, user: User):
 		self._graph.push(user)
 	
