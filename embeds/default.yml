@@ -1,7 +1,7 @@
 header:
   title: Header_name_here
   description: description_here # Needs to be here, but can be empty.
-  url: url_here # If you don't wan't to add a custom URL, you can add "https://gwo.io".
+  url: url_here # If you don't wan't to add a custom URL, you should add "https://gwo.io".
 
 fields:
   1:
