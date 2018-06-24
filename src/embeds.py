@@ -64,7 +64,6 @@ class EmbedGenerator(object):
 		"""
 		return self._embed_names
 
-
 	async def get_embed(self, name: str):
 		"""
 		Get a embed by its name.
@@ -74,7 +73,6 @@ class EmbedGenerator(object):
 			return self._all_embeds[name]
 		except KeyError:
 			return None
-	
 	
 	async def get_all_embed(self):
 		"""
