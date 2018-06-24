@@ -17,13 +17,13 @@ fields:
   2:
     title: User Commands
     description: |
-      **!xp** - See your XP
+      **!xp** - See your current XP
       **!xp @username @username2 @username3...** - See the XP of multiple people
       **!lb** - XP leaderboard\n
       **!level** - See your level
       **!avg_xp** - See the average XP
       **!me** - See information about yourself
-      **!v_helper** - Vote for someone to become helper
+      **!v_helper** - Vote for someone to become a helper
 
   3:
     title: Role Commands

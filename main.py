@@ -73,37 +73,36 @@ async def on_message(message):
 @bot.command()
 @commands.guild_only()
 async def vote(ctx, user: discord.Member):
-    voter = ctx.message.author
-    if await duckUtils.userIsElegibleToVote(voter.id):
-        if voter.id == user.id:
-            await ctx.send("You can't vote for yourself!")
-        elif len(ctx.message.mentions) > 1:
-            await ctx.send("You can only vote for 1 Person!")
-        else:
-            try:
-                await database.user_voted_for(voter.id, user.id)
-                await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
-                await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
-            except UserNotFoundException as e:
-                if e.user_id == voter.id:
-                    await database.create_user(voter)
-                    await database.user_voted_for(voter.id, user.id)
-                    await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
-                    await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
-                elif e.user_id == user.id:
-                    await database.create_user(user)
-                    await database.user_voted_for(voter.id, user.id)
-                    await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
-                    await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
-    else:
-        await ctx.send("You can only vote once a week!")
+	voter = ctx.message.author
+	if await duckUtils.userIsElegibleToVote(voter.id):
+		if voter.id == user.id:
+			await ctx.send("You can't vote for yourself!")
+		elif len(ctx.message.mentions) > 1:
+			await ctx.send("You can only vote for one person!")
+		else:
+			try:
+				await database.user_voted_for(voter.id, user.id)
+				await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
+				await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
+			except UserNotFoundException as e:
+				if e.user_id == voter.id:
+					await database.create_user(voter)
+					await database.user_voted_for(voter.id, user.id)
+					await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
+					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
+				elif e.user_id == user.id:
+					await database.create_user(user)
+					await database.user_voted_for(voter.id, user.id)
+					await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
+					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
+	else:
+		await ctx.send("You can only vote once a week!")
 @vote.error
 async def vote_error(ctx, error):
-    if isinstance(error, commands.BadArgument):
-        await ctx.send(f">>Please use an valid Argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+	if isinstance(error, commands.BadArgument):
+		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
-
-@bot.command(aliases=["?", "hilfe"])
+@bot.command(aliases=["?", "hilfe"]) # Unsure if this alias is intended for German users.
 async def help(ctx, *args):
     await ctx.send(embed=await embedgenerator.get_embed("help"))
 
@@ -132,8 +131,8 @@ async def role(ctx):
 @bot.command()
 @commands.check(is_owner)
 async def set_level(ctx, user, level):
-    await levelsystem.set_user_level(ctx.message.mentions[0].id, level)
-    await ctx.send("Level Set!")
+	await levelsystem.set_user_level(ctx.message.mentions[0].id, level)
+	await ctx.send("Level set!")
 
 
 @bot.command()
@@ -144,8 +143,6 @@ async def info(ctx, user: discord.Member = None):
         await ctx.send(embed=await embedgenerator.generateMeEmbed(ctx.message.author))
 @info.error
 async def info_error(ctx, error):
-    if isinstance(error, commands.BadArgument):
-        await ctx.send(f">>Please use an valid Argument.<<\n>>`{ctx.message.content}` is invalid!<<")
-
-
+	if isinstance(error, commands.BadArgument):
+		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 bot.run(BOT_TOKEN)
