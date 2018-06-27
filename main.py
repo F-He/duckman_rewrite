@@ -16,7 +16,7 @@ database = Database("grewoss", bot)
 
 embedgenerator = EmbedGenerator(bot, database)
 
-levelsystem = LevelSystem(database, embedgenerator)
+levelsystem = LevelSystem(database, embedgenerator, bot)
 
 currencySystem = CurrencySystem(database)
 
@@ -63,7 +63,7 @@ async def on_member_remove(member):
 async def on_message(message):
     await bot.process_commands(message)
     await levelsystem.addXpTo(message.author.id, 2)
-    level_message = await levelsystem.check_level(message.author)
+    level_message = await levelsystem.check_level(message)
     if level_message is not None:
         await message.channel.send(embed=level_message)
     await database.check_channel(message.author.id, message.channel.id)
@@ -102,7 +102,7 @@ async def vote_error(ctx, error):
 	if isinstance(error, commands.BadArgument):
 		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
-@bot.command(aliases=["?", "hilfe"]) # Unsure if this alias is intended for German users.
+@bot.command(aliases=["?", "hilfe"])
 async def help(ctx, *args):
     await ctx.send(embed=await embedgenerator.get_embed("help"))
 
@@ -145,4 +145,6 @@ async def info(ctx, user: discord.Member = None):
 async def info_error(ctx, error):
 	if isinstance(error, commands.BadArgument):
 		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+
+
 bot.run(BOT_TOKEN)

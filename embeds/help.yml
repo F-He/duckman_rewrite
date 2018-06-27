@@ -9,29 +9,20 @@ fields:
     description: |
       **!help** - Sends this message
       **!github** - Duckman's Github repository
-      **!ping** - Get Duckman's ping
-      **!who** - Shows how many people are on the server
-      **!tut_code** - Links to the tutorial code
-      **!gamble** - Gamble & win XP
 
   2:
     title: User Commands
     description: |
-      **!xp** - See your current XP
-      **!xp @username @username2 @username3...** - See the XP of multiple people
+      **!info** - See infos about you
+      **!info @username** - See the XP of multiple people
       **!lb** - XP leaderboard\n
       **!level** - See your level
-      **!avg_xp** - See the average XP
-      **!me** - See information about yourself
-      **!v_helper** - Vote for someone to become a helper
+      **!vote** - Vote for someone
 
   3:
     title: Role Commands
     description: |
       **!role** - Set your roles
-      **!r_role** - Remove your roles
-      **!myrole** - Set your color role
-      **!skill** - Set your skills
 
 footer: Mainly developed by Grewoss | Avatar design by Grassmou
 

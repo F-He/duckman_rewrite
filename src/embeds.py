@@ -56,6 +56,7 @@ class EmbedGenerator(object):
 		gen_embed.add_field(name="Current Votes:", value=databaseUser.helper_votes, inline= True)
 		gen_embed.add_field(name="Currency:", value=databaseUser.currency, inline=True)
 		gen_embed.add_field(name="Favorite Channel:", value=databaseUser.fav_channel, inline=True)
+		gen_embed.set_thumbnail(url=user.avatar_url)
 		return gen_embed
 	
 	async def get_all_names(self):

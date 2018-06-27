@@ -1,17 +1,22 @@
 1:
-  rewards: null
+  rewards: "20 Coins!"
+  coins: 20
   xp: 10
 2:
-  rewards: null
+  rewards: "20 Coins!"
+  coins: 20
   xp: 100
 3:
-  rewards: null
+  rewards: "20 Coins!"
+  coins: 20
   xp: 300
 4:
-  rewards: null
+  rewards: "20 Coins!"
+  coins: 20
   xp: 600
 5:
-  rewards: null
+  rewards: "You unlocked the Active Role.\nEnjoy your golden Name!\nYou also got 200 Coins!"
+  coins: 200
   xp: 1000
 6:
   rewards: null

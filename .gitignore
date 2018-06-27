@@ -13,3 +13,5 @@ src/__pycache__/database.cpython-36.pyc
 src/__pycache__/embeds.cpython-36.pyc
 src/__pycache__/secrets.cpython-36.pyc
 src/__pycache__/levelSystem.cpython-36.pyc
+src/__pycache__/currency.cpython-36.pyc
+src/__pycache__/utils.cpython-36.pyc
