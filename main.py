@@ -50,7 +50,17 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     await database.create_user(member)
-    # await member.send(embed=await embedgenerator.get_embed("welcome")) #<<<<<<<<<<<<<
+
+    msg = await member.send(embed=await embedgenerator.get_embed("welcome")) #<<<<<<<<<<<<<
+    await msg.add_reaction("📜")
+    
+    def check(reaction, user):
+        return user == member
+    
+    reaction, user = await bot.wait_for("reaction_add", check=check)
+    if str(reaction.emoji) == '📜':
+        with open("cfg/guide.txt", 'r') as file:
+            await member.send(file.read())
 
 
 @bot.event
@@ -108,8 +118,18 @@ async def help(ctx, *args):
 
 
 @bot.command()
+@commands.check(is_owner)
 async def welcome(ctx):
-    await ctx.send(embed=await embedgenerator.get_embed("welcome"))
+    msg = await ctx.send(embed=await embedgenerator.get_embed("welcome"))
+    await msg.add_reaction("📜")
+    
+    def check(reaction, user):
+        return user == ctx.message.author
+    
+    reaction, user = await bot.wait_for("reaction_add", check=check)
+    if str(reaction.emoji) == '📜':
+        with open("cfg/guide.txt", 'r') as file:
+            await ctx.send(file.read())
 
 
 @bot.command()

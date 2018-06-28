@@ -1,0 +1,45 @@
+===========================
+===========================
+
+__**Guide um richtig Fragen zu stellen!**__
+
+*Hier sind ein paar Tipps wie du schneller zu der richtigen Antwort kommst!*
+
+
+**1. Stelle direkt deine Frage!**
+    Fragen wie "*Kann mir jemand helfen?*" oder "*Kannst du mir helfen?*" sind generell unattraktiv fuer viele!
+    Ich zum Beispiel bekomme Taeglich solche Fragen per DM und antworte nur seltend darauf! *Sorry* 
+    *siehe http://metafrage.de/*
+
+
+**2. Du bekommst einen Error und weisst nicht wieso?**
+    Dann schreibe den `Error` direkt mit zur Frage!
+    *siehe "Code richtig senden!" weiter unten!*
+
+===========================
+===========================
+
+__**Code richtig senden!**__
+*Jemand fragt dich ob du ihm ein Teil von deinem Code senden kannst?*
+*Dann mach es so wie hier beschrieben!*
+
+**Code Blocks:**
+    Damit dein Code auch in Discord Wunderschoen aussieht solltest du Code Blocks verwenden!
+
+
+Das geht dann so:
+\`\`\`python
+if message.content.lower().startswith("!codeblocks"):
+    await client.send_message(message.channel, "Sind Toll!")
+\`\`\`
+
+Das ganze sieht dann so aus:
+```python
+if message.content.lower().startswith("!codeblocks"):
+    await client.send_message(message.channel, "Sind Toll!")
+```
+
+===========================
+===========================
+
+Im `#guide` channel kannst du dieses Guide jederzeit sehen!
