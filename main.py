@@ -57,7 +57,7 @@ async def on_member_join(member):
     def check(reaction, user):
         return user == member
     
-    reaction, user = await bot.wait_for("reaction_add", check=check)
+    reaction, user = await bot.wait_for("reaction_add")
     if str(reaction.emoji) == '📜':
         with open("cfg/guide.txt", 'r') as file:
             await member.send(file.read())
@@ -112,6 +112,7 @@ async def vote_error(ctx, error):
 	if isinstance(error, commands.BadArgument):
 		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
+
 @bot.command(aliases=["?", "hilfe"])
 async def help(ctx, *args):
     await ctx.send(embed=await embedgenerator.get_embed("help"))
@@ -140,6 +141,19 @@ async def github(ctx):
 @bot.command()
 async def xp(ctx):
     await ctx.send(await levelsystem.getXpFrom(ctx.message.author.id))
+
+
+"""ROLE COMMANDS"""
+@bot.command()
+@commands.guild_only()
+async def twitch(ctx):
+    role = discord.utils.get(ctx.message.guild.roles, name="twitch_notification")
+    if role in ctx.message.author.roles:
+        await ctx.message.author.remove_roles(role)
+        await ctx.send("Twitch Notification role removed!")
+    else:
+        await ctx.message.author.add_roles(role)
+        await ctx.send("Twitch Notification role added!")
 
 
 @bot.command()
