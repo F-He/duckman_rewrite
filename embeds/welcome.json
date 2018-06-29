@@ -1,0 +1,13 @@
+{
+	"header": {
+		"title": "__**Welcome**__",
+		"description": "Willkommen auf dem Grewoss Server!",
+		"url": "https://gwo.io"
+	},
+	"fields": {
+		"1": {
+			"title": "Der erste Schritt!",
+			"description": "Um sicher auf dem Server anzukommen solltest du dir kurz Zeit nehmen und das Guide durchlesen.\nUm das Guide zu sehen klicke einfach auf die 📜 Reaction."
+		}
+	}
+}

@@ -178,6 +178,13 @@ class Database(object):
 		user = await self.find_user(user_id)
 		return int(user.helper_votes)
 	
+	async def getWhoVotedFor(self, user_id: int):
+		user = await self.find_user(user_id)
+		whoVoted = []
+		for voter in user.got_vote_from:
+			whoVoted.append(voter.name)
+		return whoVoted
+	
 	async def get_last_vote_time(self, _user_id: int):
 		user = await self.find_user(_user_id)
 		return user.last_vote_made_on

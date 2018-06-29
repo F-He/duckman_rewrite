@@ -1,5 +1,5 @@
 import discord
-import yaml
+import json
 from src.database import Database
 
 BOT_COLOR = 0x547e34
@@ -12,20 +12,20 @@ class EmbedGenerator(object):
 		self._all_embeds = {}
 
 	async def load_embeds(self):
-		self.generateEmbed("./embeds/help.yml", "help")
-		self.generateEmbed("./embeds/github.yml", "github")
-		self.generateEmbed("./embeds/welcome.yml", "welcome")
+		self.generateEmbed("./embeds/help.json", "help")
+		self.generateEmbed("./embeds/github.json", "github")
+		self.generateEmbed("./embeds/welcome.json", "welcome")
 		
 	def generateEmbed(self, path: str, name: str):
 		"""
-		Generate an embed based on an YAML File.
+		Generate an embed based on a JSON File.
 
-		:param path: The path to the YAML File.
+		:param path: The path to the JSON File.
 		:param name: The name to access the Embed later.
 		:return: The generated Embed.
 		"""
-		with open(path, 'r', encoding='utf-8') as stream:
-			gen_dict = yaml.load(stream, Loader=yaml.Loader)
+		with open(path, 'r') as stream:
+			gen_dict = json.load(stream)
 		gen_dict = check_dict(gen_dict)
 		
 		gen_embed = discord.Embed(title=gen_dict["header"]["title"], description=gen_dict["header"]["description"], color=gen_dict["color"], url=gen_dict["header"]["url"])

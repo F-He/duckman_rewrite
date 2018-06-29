@@ -113,6 +113,18 @@ async def vote_error(ctx, error):
 		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
 
+@bot.command()
+async def whovoted(ctx, user: discord.Member = None):
+    if user is not None:
+        msg = "```\n"
+        for voter in await database.getWhoVotedFor(user.id):
+            msg += f"{voter}\n"
+        msg += "```"
+        await ctx.send(msg)
+    else:
+        pass
+
+
 @bot.command(aliases=["?", "hilfe"])
 async def help(ctx, *args):
     await ctx.send(embed=await embedgenerator.get_embed("help"))

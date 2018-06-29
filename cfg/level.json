@@ -1,0 +1,252 @@
+{
+	"1": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 10
+	},
+	"2": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 100
+	},
+	"3": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 300
+	},
+	"4": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 600
+	},
+	"5": {
+		"coins": 200,
+		"rewards": "You unlocked the Active Role.\nEnjoy your golden Name!\nYou also got 200 Coins!",
+		"xp": 1000
+	},
+	"6": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 1500
+	},
+	"7": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 2100
+	},
+	"8": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 2800
+	},
+	"9": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 3600
+	},
+	"10": {
+		"coins": 500,
+		"rewards": "500 Coins!",
+		"xp": 4500
+	},
+	"11": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 5500
+	},
+	"12": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 6600
+	},
+	"13": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 7800
+	},
+	"14": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 9100
+	},
+	"15": {
+		"coins": 2000,
+		"rewards": "2000 Coins!",
+		"xp": 10500
+	},
+	"16": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 12000
+	},
+	"17": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 13600
+	},
+	"18": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 15300
+	},
+	"19": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 17100
+	},
+	"20": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 19000
+	},
+	"21": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 21000
+	},
+	"22": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 23100
+	},
+	"23": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 25300
+	},
+	"24": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 27600
+	},
+	"25": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 30000
+	},
+	"26": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 32500
+	},
+	"27": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 35100
+	},
+	"28": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 37800
+	},
+	"29": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 40600
+	},
+	"30": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 43500
+	},
+	"31": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 46500
+	},
+	"32": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 49600
+	},
+	"33": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 52800
+	},
+	"34": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 56100
+	},
+	"35": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 59500
+	},
+	"36": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 63000
+	},
+	"37": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 66600
+	},
+	"38": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 70300
+	},
+	"39": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 74100
+	},
+	"40": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 78000
+	},
+	"41": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 82000
+	},
+	"42": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 86100
+	},
+	"43": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 90300
+	},
+	"44": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 94600
+	},
+	"45": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 99000
+	},
+	"46": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 103500
+	},
+	"47": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 108100
+	},
+	"48": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 112800
+	},
+	"49": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 117600
+	},
+	"50": {
+		"coins": 20,
+		"rewards": "20 Coins!",
+		"xp": 122500
+	}
+}

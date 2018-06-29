@@ -1,0 +1,22 @@
+{
+    "header": {
+        "title": "Header name here",
+        "description": "Description here",
+        "url": "url here"
+    },
+
+    "fields": {
+        "1": {
+            "title": "Title here",
+            "description": "Description here"
+        },
+        "2": {
+            "title": "Title here",
+            "description": "Description here"
+        }
+    },
+
+    "footer": "The Footer is optional",
+    "color": "0xb02fbc",
+    "show_thumbnail": true
+}

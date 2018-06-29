@@ -1,4 +1,4 @@
-import yaml
+import json
 from src.database import Database
 
 
@@ -7,11 +7,11 @@ class CurrencySystem(object):
         self._database = database
         self._valueContainer = {}
 
-        self._valueContainer = self.loadCurrencyConfig("./cfg/currencyConfig.yml")
+        self._valueContainer = self.loadCurrencyConfig("./cfg/currencyConfig.json")
     
     def loadCurrencyConfig(self, path: str):
-        with open(path, 'r', encoding="utf-8") as stream:
-            return yaml.load(stream, Loader=yaml.Loader)
+        with open(path, 'r') as stream:
+            return json.load(stream)
     
     async def getCurrencyValue(self, name: str):
         return self._valueContainer[name]

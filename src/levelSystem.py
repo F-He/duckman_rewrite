@@ -1,5 +1,5 @@
 import discord
-import yaml
+import json
 from src.database import Database
 from src.embeds import EmbedGenerator
 
@@ -10,8 +10,8 @@ class LevelSystem():
         self._embedgenerator = embedgen
         self._bot = bot
 
-        with open("./cfg/level2.yml", 'r', encoding='utf-8') as stream:
-            self.level_dict = yaml.load(stream, Loader=yaml.Loader)
+        with open("./cfg/level.json", 'r') as stream:
+            self.level_dict = json.load(stream)
     
 
     async def check_level(self, _message: discord.Message):

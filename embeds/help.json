@@ -1,0 +1,23 @@
+{
+	"header": {
+		"title": "__**Current Commands**__",
+		"description": null,
+		"url": "https://gwo.io"
+	},
+	"fields": {
+		"1": {
+			"title": "General Commands",
+			"description": "**!help** - Sends this message\n**!github** - Duckman's Github repository\n"
+		},
+		"2": {
+			"title": "User Commands",
+			"description": "**!info** - See infos about you\n**!info @username** - See the XP of multiple people\n**!lb** - XP leaderboard\\n\n**!level** - See your level\n**!vote** - Vote for someone\n"
+		},
+		"3": {
+			"title": "Role Commands",
+			"description": "**!role** - Set your roles\n"
+		}
+	},
+	"footer": "Mainly developed by Grewoss | Avatar design by Grassmou",
+	"show_thumbnail": true
+}
