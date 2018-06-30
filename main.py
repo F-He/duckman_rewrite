@@ -51,13 +51,11 @@ async def on_ready():
 async def on_member_join(member):
     await database.create_user(member)
 
-    msg = await member.send(embed=await embedgenerator.get_embed("welcome")) #<<<<<<<<<<<<<
+    msg = await member.send(embed=await embedgenerator.get_embed("welcome"))
     await msg.add_reaction("📜")
-    
     def check(reaction, user):
         return user == member
-    
-    reaction, user = await bot.wait_for("reaction_add")
+    reaction, user = await bot.wait_for("reaction_add", check=check)
     if str(reaction.emoji) == '📜':
         with open("cfg/guide.txt", 'r') as file:
             await member.send(file.read())
@@ -80,7 +78,24 @@ async def on_message(message):
     await database.detect_favorite_channel(message.author.id)
 
 
-@bot.command()
+@bot.command(aliases=["?", "hilfe"])
+async def help(ctx, *args):
+    await ctx.send(embed=await embedgenerator.get_embed("help"))
+
+
+@bot.command(aliases=["xp", "user"])
+async def info(ctx, user: discord.Member = None):
+    if user is not None:
+        await ctx.send(embed=await embedgenerator.generateMeEmbed(user))
+    else:
+        await ctx.send(embed=await embedgenerator.generateMeEmbed(ctx.message.author))
+@info.error
+async def info_error(ctx, error):
+	if isinstance(error, commands.BadArgument):
+		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+
+
+@bot.command(aliases=["v_helper"])
 @commands.guild_only()
 async def vote(ctx, user: discord.Member):
 	voter = ctx.message.author
@@ -116,43 +131,14 @@ async def vote_error(ctx, error):
 @bot.command()
 async def whovoted(ctx, user: discord.Member = None):
     if user is not None:
-        msg = "```\n"
-        for voter in await database.getWhoVotedFor(user.id):
-            msg += f"{voter}\n"
-        msg += "```"
-        await ctx.send(msg)
+        await ctx.send(await duckUtils.generateWhoVotedMessage(user.id))
     else:
-        pass
-
-
-@bot.command(aliases=["?", "hilfe"])
-async def help(ctx, *args):
-    await ctx.send(embed=await embedgenerator.get_embed("help"))
-
-
-@bot.command()
-@commands.check(is_owner)
-async def welcome(ctx):
-    msg = await ctx.send(embed=await embedgenerator.get_embed("welcome"))
-    await msg.add_reaction("📜")
-    
-    def check(reaction, user):
-        return user == ctx.message.author
-    
-    reaction, user = await bot.wait_for("reaction_add", check=check)
-    if str(reaction.emoji) == '📜':
-        with open("cfg/guide.txt", 'r') as file:
-            await ctx.send(file.read())
+        await ctx.send(await duckUtils.generateWhoVotedMessage(user.id))
 
 
 @bot.command()
 async def github(ctx):
     await ctx.send(embed=await embedgenerator.get_embed("github"))
-
-
-@bot.command()
-async def xp(ctx):
-    await ctx.send(await levelsystem.getXpFrom(ctx.message.author.id))
 
 
 """ROLE COMMANDS"""
@@ -174,6 +160,7 @@ async def role(ctx):
     pass
 
 
+"""ADMIN COMMANDS"""
 @bot.command()
 @commands.check(is_owner)
 async def set_level(ctx, user, level):
@@ -182,15 +169,16 @@ async def set_level(ctx, user, level):
 
 
 @bot.command()
-async def info(ctx, user: discord.Member = None):
-    if user is not None:
-        await ctx.send(embed=await embedgenerator.generateMeEmbed(user))
-    else:
-        await ctx.send(embed=await embedgenerator.generateMeEmbed(ctx.message.author))
-@info.error
-async def info_error(ctx, error):
-	if isinstance(error, commands.BadArgument):
-		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+@commands.check(is_owner)
+async def welcome(ctx):
+    msg = await ctx.send(embed=await embedgenerator.get_embed("welcome"))
+    await msg.add_reaction("📜")
+    def check(reaction, user):
+        return user == ctx.message.author
+    reaction, user = await bot.wait_for("reaction_add", check=check)
+    if str(reaction.emoji) == '📜':
+        with open("cfg/guide.txt", 'r') as file:
+            await ctx.send(file.read())
 
 
 bot.run(BOT_TOKEN)

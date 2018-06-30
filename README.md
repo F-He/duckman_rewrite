@@ -23,32 +23,34 @@ Placeholder
 
 Placeholder
 
-## Creating Embeds with .YAML
+## Creating Embeds with .json
 
-If you want to create an Embed for the Chat please use the `generateEmbed` function from `src/embeds.py` and follow the Rules in `embeds/default.yml`!  
-`default.yml` file:
-```yml
-header:
-  title: Header_name_here
-  description: description_here # Needs to be here but can be empty.
-  url: url_here # If you don't want to add a custom URL add "https://gwo.io".
+If you want to create an Embed for the Chat please use the `generateEmbed` function from `src/embeds.py` and follow the Rules in `embeds/default.json`!  
+`default.json` file:
+```json
+{
+    "header": {
+        "title": "Header name here",
+        "description": "Description here", << Needs to be here but can be empty.
+        "url": "url here" << # If you don't want to add a custom URL add "https://gwo.io".
+    },
 
-fields:
-  1:
-    title: title_here
-    description: description_here
-  2:
-    title: title_here
-    description: description_here
-  # There can be as many fields as you want or need.
+    "fields": {
+        "1": {
+            "title": "Title here",
+            "description": "Description here"
+        },
+        "2": {
+            "title": "Title here",
+            "description": "Description here"
+        }
+        << There can be as many fields as you want or need. >>
+    },
 
-# Footer is optional.
-footer: footer_here
-
-# Color is optional.
-color: 0xb02fbc
-# show_thumbnail is also optional and if not given False!
-show_thumbnail: False
+    "footer": "The Footer is optional",
+    "color": "0xb02fbc",
+    "show_thumbnail": true << show_thumbnail is also optional and if not given False!
+}
 ```
 
 

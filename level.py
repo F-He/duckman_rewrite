@@ -1,7 +1,7 @@
 import yaml
 
 x = 0
-differenz = 100 # I'd suggest English variable names.
+differenz = 100
 level_dict = {}
 
 for i in range(0, 51):
