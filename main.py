@@ -7,6 +7,7 @@ from src.database import Database
 from src.exceptions import UserNotFoundException
 from src.levelSystem import LevelSystem
 from src.currency import CurrencySystem
+from src.role import RoleManager
 from src.utils import Utils
 
 bot = commands.Bot(command_prefix='~')
@@ -14,11 +15,14 @@ bot.remove_command('help')
 
 database = Database("grewoss", bot)
 
-embedgenerator = EmbedGenerator(bot, database)
+roleManager = RoleManager()
+
+embedgenerator = EmbedGenerator(bot, database, roleManager)
 
 levelsystem = LevelSystem(database, embedgenerator, bot)
 
 currencySystem = CurrencySystem(database)
+
 
 duckUtils = Utils(database)
 
@@ -32,6 +36,7 @@ def is_owner(ctx):
 @bot.event
 async def on_ready():
     await embedgenerator.load_embeds()
+    await roleManager.loadEmbedGenerator(embedgenerator)
     for guild in bot.guilds:
         for channel in guild.channels:
             if isinstance(channel, discord.TextChannel):
@@ -91,41 +96,41 @@ async def info(ctx, user: discord.Member = None):
         await ctx.send(embed=await embedgenerator.generateMeEmbed(ctx.message.author))
 @info.error
 async def info_error(ctx, error):
-	if isinstance(error, commands.BadArgument):
-		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+    if isinstance(error, commands.BadArgument):
+        await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
 
 @bot.command(aliases=["v_helper"])
 @commands.guild_only()
 async def vote(ctx, user: discord.Member):
-	voter = ctx.message.author
-	if await duckUtils.userIsElegibleToVote(voter.id):
-		if voter.id == user.id:
-			await ctx.send("You can't vote for yourself!")
-		elif len(ctx.message.mentions) > 1:
-			await ctx.send("You can only vote for one person!")
-		else:
-			try:
-				await database.user_voted_for(voter.id, user.id)
-				await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
-				await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
-			except UserNotFoundException as e:
-				if e.user_id == voter.id:
-					await database.create_user(voter)
-					await database.user_voted_for(voter.id, user.id)
-					await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
-					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
-				elif e.user_id == user.id:
-					await database.create_user(user)
-					await database.user_voted_for(voter.id, user.id)
-					await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
-					await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
-	else:
-		await ctx.send("You can only vote once a week!")
+    voter = ctx.message.author
+    if await duckUtils.userIsElegibleToVote(voter.id):
+        if voter.id == user.id:
+            await ctx.send("You can't vote for yourself!")
+        elif len(ctx.message.mentions) > 1:
+            await ctx.send("You can only vote for one person!")
+        else:
+            try:
+                await database.user_voted_for(voter.id, user.id)
+                await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
+                await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
+            except UserNotFoundException as e:
+                if e.user_id == voter.id:
+                    await database.create_user(voter)
+                    await database.user_voted_for(voter.id, user.id)
+                    await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
+                    await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
+                elif e.user_id == user.id:
+                    await database.create_user(user)
+                    await database.user_voted_for(voter.id, user.id)
+                    await currencySystem.addCoinsTo(voter.id, await currencySystem.getCurrencyValue("voteValue"))
+                    await ctx.send(f"{voter.mention} voted successfully for {user.mention}")
+    else:
+        await ctx.send("You can only vote once a week!")
 @vote.error
 async def vote_error(ctx, error):
-	if isinstance(error, commands.BadArgument):
-		await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
+    if isinstance(error, commands.BadArgument):
+        await ctx.send(f">>Please use a valid argument.<<\n>>`{ctx.message.content}` is invalid!<<")
 
 
 @bot.command()
@@ -157,15 +162,26 @@ async def twitch(ctx):
 @bot.command(aliases=["skill", "roles"])
 @commands.guild_only()
 async def role(ctx):
-    pass
+    roleMessage = await roleManager.mainRoleSection(ctx)
+
+    def check(reaction, user):
+        return user == ctx.message.author and reaction.message == roleMessage
+    reaction, user = await bot.wait_for("reaction_add", check=check)
+
+    if str(reaction.emoji) == '➕':
+        await roleManager.addRoleSection(ctx, roleMessage)
+    if str(reaction.emoji) == '➖':
+        await roleManager.removeRoleSection(ctx, roleMessage)
+    if str(reaction.emoji) == '🚮':
+        await roleManager.removeAllRoleSection(ctx, roleMessage)
 
 
 """ADMIN COMMANDS"""
 @bot.command()
 @commands.check(is_owner)
 async def set_level(ctx, user, level):
-	await levelsystem.set_user_level(ctx.message.mentions[0].id, level)
-	await ctx.send("Level set!")
+    await levelsystem.set_user_level(ctx.message.mentions[0].id, level)
+    await ctx.send("Level set!")
 
 
 @bot.command()

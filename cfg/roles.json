@@ -1,0 +1,17 @@
+{
+    "languages": {
+        "🇦": "Python",
+        "🇧": "Java",
+        "🇨": "C/C++",
+        "🇩": "C#",
+        "🇪": "Golang",
+        "🇫": "Javascript",
+        "🇬": "HTML/CSS"
+    },
+    "other": {
+        "": "Discord Ext",
+        "": "Discord Rewrite",
+        "": "Raspberry",
+        "": "Linux"
+    }
+}
