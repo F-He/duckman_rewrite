@@ -15,7 +15,7 @@ bot.remove_command('help')
 
 database = Database("grewoss", bot)
 
-roleManager = RoleManager()
+roleManager = RoleManager(bot)
 
 embedgenerator = EmbedGenerator(bot, database, roleManager)
 
@@ -162,18 +162,20 @@ async def twitch(ctx):
 @bot.command(aliases=["skill", "roles"])
 @commands.guild_only()
 async def role(ctx):
-    roleMessage = await roleManager.mainRoleSection(ctx)
+    await roleManager.startRoleManagement(ctx)
 
-    def check(reaction, user):
-        return user == ctx.message.author and reaction.message == roleMessage
-    reaction, user = await bot.wait_for("reaction_add", check=check)
+    # roleMessage = await roleManager.mainRoleSection(ctx)
 
-    if str(reaction.emoji) == '➕':
-        await roleManager.addRoleSection(ctx, roleMessage)
-    if str(reaction.emoji) == '➖':
-        await roleManager.removeRoleSection(ctx, roleMessage)
-    if str(reaction.emoji) == '🚮':
-        await roleManager.removeAllRoleSection(ctx, roleMessage)
+    # def check(reaction, user):
+    #     return user == ctx.message.author and reaction.message == roleMessage
+    # reaction, user = await bot.wait_for("reaction_add", check=check)
+
+    # if str(reaction.emoji) == '➕':
+    #     await roleManager.addRoleSection(ctx, roleMessage)
+    # if str(reaction.emoji) == '➖':
+    #     await roleManager.removeRoleSection(ctx, roleMessage)
+    # if str(reaction.emoji) == '🚮':
+    #     await roleManager.removeAllRoleSection(ctx, roleMessage)
 
 
 """ADMIN COMMANDS"""
