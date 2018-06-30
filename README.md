@@ -31,8 +31,8 @@ If you want to create an Embed for the Chat please use the `generateEmbed` funct
 {
     "header": {
         "title": "Header name here",
-        "description": "Description here", << Needs to be here but can be empty.
-        "url": "url here" << # If you don't want to add a custom URL add "https://gwo.io".
+        "description": "Description here",
+        "url": null
     },
 
     "fields": {
@@ -44,12 +44,11 @@ If you want to create an Embed for the Chat please use the `generateEmbed` funct
             "title": "Title here",
             "description": "Description here"
         }
-        << There can be as many fields as you want or need. >>
     },
 
     "footer": "The Footer is optional",
     "color": "0xb02fbc",
-    "show_thumbnail": true << show_thumbnail is also optional and if not given False!
+    "show_thumbnail": true
 }
 ```
 

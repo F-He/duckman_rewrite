@@ -28,8 +28,14 @@ class EmbedGenerator(object):
 			gen_dict = json.load(stream)
 		gen_dict = check_dict(gen_dict)
 		
-		gen_embed = discord.Embed(title=gen_dict["header"]["title"], description=gen_dict["header"]["description"], color=gen_dict["color"], url=gen_dict["header"]["url"])
-
+		gen_embed = discord.Embed(title=gen_dict["header"]["title"], url=gen_dict["header"]["url"])
+		
+		if gen_dict["header"]["description"] is not None:
+			gen_embed.description = gen_dict["header"]["description"]
+		if gen_dict["header"]["url"] is not None:
+			gen_embed.url = gen_dict["header"]["url"]
+		if gen_dict["color"] is not None:
+			gen_embed.colour = gen_dict["color"]
 		if gen_dict["fields"] is not None:
 			for field, content in gen_dict["fields"].items():
 				gen_embed.add_field(name=content["title"], value=content["description"])

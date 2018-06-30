@@ -13,7 +13,7 @@ Todo next:
     ✔ if user not found create one (in find_user() function database.py) @done (5/25/2018, 10:43:22 PM)
     ✔ Think about the XP system... Might add a new currency? @done (5/27/2018, 9:53:10 PM)
     ✔ Welcome Message in Private chat @done (6/23/2018, 12:28:41 AM)
-    ☐ Rewrite Vote function (Coin for vote)
+    ✔ Rewrite Vote function (Coin for vote) @done (6/30/2018, 2:08:49 AM)
     
     ✘ detect_favorite_channel exec every hour @cancelled (6/20/2018, 9:56:16 PM)
     ✔ remove user from database on server leave @done (6/20/2018, 9:59:33 PM)

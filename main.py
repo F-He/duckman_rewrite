@@ -154,7 +154,7 @@ async def twitch(ctx):
         await ctx.send("Twitch Notification role added!")
 
 
-@bot.command()
+@bot.command(aliases=["skill", "roles"])
 @commands.guild_only()
 async def role(ctx):
     pass
