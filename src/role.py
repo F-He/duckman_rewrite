@@ -6,6 +6,7 @@ class RoleManager():
         self._availableRoles = None
         self._bot = bot
         self._embedgenerator = None
+        self._currentState = {}
 
         with open("./cfg/roles.json", 'r', encoding="utf-8") as stream:
             self._availableRoles = json.load(stream)
@@ -17,6 +18,7 @@ class RoleManager():
         return self._availableRoles
     
     async def startRoleManagement(self, ctx, _roleMessage = None):
+        self._currentState[ctx.message.author.id] = {}
         roleMessage = await self.mainRoleSection(ctx, _roleMessage)
 
         def check(reaction, user):
@@ -36,24 +38,35 @@ class RoleManager():
         else:
             await roleMessage.clear_reactions()
             await roleMessage.edit(embed=await self._embedgenerator.generateRoleEmbed(ctx.message.author))
+        self._currentState[ctx.message.author.id]["state"] = "home"
+        self._currentState[ctx.message.author.id]["msgid"] = roleMessage.id
         await roleMessage.add_reaction("➕")
         await roleMessage.add_reaction("➖")
         await roleMessage.add_reaction("🚮")
         return roleMessage
     
     async def addRoleSection(self, ctx, roleMessage: discord.Message):
-        pass
+        self._currentState[ctx.message.author.id]["state"] = "add"
+        self._currentState[ctx.message.author.id]["msgid"] = roleMessage.id
     
     async def removeRoleSection(self, ctx, roleMessage: discord.Message):
+        self._currentState[ctx.message.author.id]["state"] = "remove"
+        self._currentState[ctx.message.author.id]["msgid"] = roleMessage.id
         await roleMessage.clear_reactions()
         await roleMessage.edit(embed=await self._embedgenerator.generateRemoveRoleEmbed(ctx.message.author))
         for emoji, rolename in self._availableRoles["languages"].items():
             role = discord.utils.get(ctx.message.author.roles, name=rolename)
             if role is not None:
                 await roleMessage.add_reaction(emoji)
+        for emoji, rolename in self._availableRoles["other"].items():
+            role = discord.utils.get(ctx.message.author.roles, name=rolename)
+            if role is not None:
+                await roleMessage.add_reaction(emoji)
         await self.makeHomeAvailable(ctx, roleMessage)
     
     async def removeAllRoleSection(self, ctx, roleMessage: discord.Message):
+        self._currentState[ctx.message.author.id]["state"] = "removeall"
+        self._currentState[ctx.message.author.id]["msgid"] = roleMessage.id
         for emoji, rolename in self._availableRoles["languages"].items():
             role = discord.utils.get(ctx.message.author.roles, name=rolename)
             if role is not None:
@@ -73,3 +86,47 @@ class RoleManager():
         reaction, user = await self._bot.wait_for("reaction_add", check=check)
         if str(reaction.emoji) == '🏠':
             await self.startRoleManagement(ctx, roleMessage)
+
+    async def handleReactions(self, reaction, user):
+        msg = reaction.message
+        if user.id in self._currentState:
+            if msg.id == self._currentState[user.id]["msgid"]:
+                if self._currentState[user.id]["state"] == "home":
+                    return
+                if self._currentState[user.id]["state"] == "add":
+                    pass
+
+                if self._currentState[user.id]["state"] == "remove":
+                    try:
+                        rolename = self._availableRoles["languages"][reaction.emoji]
+                        role = discord.utils.get(user.roles, name=rolename)
+                        await user.remove_roles(role)
+                        await msg.channel.send(f"Removed {rolename}")
+                    except:
+                        try:
+                            rolename = self._availableRoles["other"][reaction.emoji]
+                            role = discord.utils.get(user.roles, name=rolename)
+                            await user.remove_roles(role)
+                            await msg.channel.send(f"Removed {rolename}")
+                        except:
+                            pass
+
+                if self._currentState[user.id]["state"] == "removeall":
+                    pass
+    
+
+        # {
+        #     "9348910934134": {
+        #         "state": "remove_roles",
+        #         "msgid": "218971345753194"
+        #     }
+        # }
+
+
+
+
+    def _editState(self, newState):
+        self._currentState = newState
+
+    def getState(self):
+        return self._currentState

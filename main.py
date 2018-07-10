@@ -70,6 +70,10 @@ async def on_member_join(member):
 async def on_member_remove(member):
     await database.delete_user_by_ID(member.id)
 
+@bot.event
+async def on_reaction_add(reaction, user):
+    await roleManager.handleReactions(reaction, user)
+
 
 """COMMANDS"""
 @bot.event
@@ -163,19 +167,6 @@ async def twitch(ctx):
 @commands.guild_only()
 async def role(ctx):
     await roleManager.startRoleManagement(ctx)
-
-    # roleMessage = await roleManager.mainRoleSection(ctx)
-
-    # def check(reaction, user):
-    #     return user == ctx.message.author and reaction.message == roleMessage
-    # reaction, user = await bot.wait_for("reaction_add", check=check)
-
-    # if str(reaction.emoji) == '➕':
-    #     await roleManager.addRoleSection(ctx, roleMessage)
-    # if str(reaction.emoji) == '➖':
-    #     await roleManager.removeRoleSection(ctx, roleMessage)
-    # if str(reaction.emoji) == '🚮':
-    #     await roleManager.removeAllRoleSection(ctx, roleMessage)
 
 
 """ADMIN COMMANDS"""

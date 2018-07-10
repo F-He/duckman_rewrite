@@ -92,6 +92,10 @@ class EmbedGenerator(object):
 			role = discord.utils.get(user.roles, name=rolename)
 			if role is not None:
 				content += f"{emoji} {role}\n"
+		for emoji, rolename in availableRoles["other"].items():
+			role = discord.utils.get(user.roles, name=rolename)
+			if role is not None:
+				content += f"{emoji} {role}\n"
 		if not content:
 			content += "No roles found."
 		gen_embed.description = content
