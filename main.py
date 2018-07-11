@@ -92,7 +92,7 @@ async def help(ctx, *args):
     await ctx.send(embed=await embedgenerator.get_embed("help"))
 
 
-@bot.command(aliases=["xp", "user"])
+@bot.command(aliases=["xp", "user", "level"])
 async def info(ctx, user: discord.Member = None):
     if user is not None:
         await ctx.send(embed=await embedgenerator.generateMeEmbed(user))

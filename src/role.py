@@ -48,6 +48,17 @@ class RoleManager():
     async def addRoleSection(self, ctx, roleMessage: discord.Message):
         self._currentState[ctx.message.author.id]["state"] = "add"
         self._currentState[ctx.message.author.id]["msgid"] = roleMessage.id
+        await roleMessage.clear_reactions()
+        await roleMessage.edit(embed=await self._embedgenerator.generateAddRoleEmbed(ctx.message.author))
+        for emoji, rolename in self._availableRoles["languages"].items():
+            role = discord.utils.get(ctx.message.author.roles, name=rolename)
+            if role not in ctx.message.author.roles:
+                await roleMessage.add_reaction(emoji)
+        for emoji, rolename in self._availableRoles["other"].items():
+            role = discord.utils.get(ctx.message.author.roles, name=rolename)
+            if role not in ctx.message.author.roles:
+                await roleMessage.add_reaction(emoji)
+        await self.makeHomeAvailable(ctx, roleMessage)
     
     async def removeRoleSection(self, ctx, roleMessage: discord.Message):
         self._currentState[ctx.message.author.id]["state"] = "remove"
@@ -94,7 +105,19 @@ class RoleManager():
                 if self._currentState[user.id]["state"] == "home":
                     return
                 if self._currentState[user.id]["state"] == "add":
-                    pass
+                    try:
+                        rolename = self._availableRoles["languages"][reaction.emoji]
+                        role = discord.utils.get(msg.guild.roles, name=rolename)
+                        await user.add_roles(role)
+                        await msg.channel.send(f"Added {rolename} to {user.name}")
+                    except:
+                        try:
+                            rolename = self._availableRoles["other"][reaction.emoji]
+                            role = discord.utils.get(msg.guild.roles, name=rolename)
+                            await user.add_roles(role)
+                            await msg.channel.send(f"Added {rolename} to {user.name}")
+                        except:
+                            pass
 
                 if self._currentState[user.id]["state"] == "remove":
                     try:
@@ -121,8 +144,6 @@ class RoleManager():
         #         "msgid": "218971345753194"
         #     }
         # }
-
-
 
 
     def _editState(self, newState):

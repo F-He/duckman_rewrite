@@ -81,7 +81,22 @@ class EmbedGenerator(object):
 		return gen_embed
 	
 	async def generateAddRoleEmbed(self, user: discord.Member):
-		pass
+		availableRoles = await self._roleManager.getAvailableRoles()
+		gen_embed = discord.Embed(title=f"Add Roles - {user.name}", color=BOT_COLOR)
+
+		content = ""
+		for emoji, rolename in availableRoles["languages"].items():
+			role = discord.utils.get(user.roles, name=rolename)
+			if role not in user.roles:
+				content += f"{emoji} {rolename}\n"
+		for emoji, rolename in availableRoles["other"].items():
+			role = discord.utils.get(user.roles, name=rolename)
+			if role not in user.roles:
+				content += f"{emoji} {rolename}\n"
+		if not content:
+			content += "No roles to add found. (Maybe you already have every role?! dafug)"
+		gen_embed.description = content
+		return gen_embed
 	
 	async def generateRemoveRoleEmbed(self, user: discord.Member):
 		availableRoles = await self._roleManager.getAvailableRoles()
