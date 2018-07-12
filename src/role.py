@@ -99,44 +99,49 @@ class RoleManager():
             await self.startRoleManagement(ctx, roleMessage)
 
     async def handleReactions(self, reaction, user):
-        msg = reaction.message
         if user.id in self._currentState:
-            if msg.id == self._currentState[user.id]["msgid"]:
+            if reaction.message.id == self._currentState[user.id]["msgid"]:
                 if self._currentState[user.id]["state"] == "home":
                     return
                 if self._currentState[user.id]["state"] == "add":
-                    try:
-                        rolename = self._availableRoles["languages"][reaction.emoji]
-                        role = discord.utils.get(msg.guild.roles, name=rolename)
-                        await user.add_roles(role)
-                        await msg.channel.send(f"Added {rolename} to {user.name}")
-                    except:
-                        try:
-                            rolename = self._availableRoles["other"][reaction.emoji]
-                            role = discord.utils.get(msg.guild.roles, name=rolename)
-                            await user.add_roles(role)
-                            await msg.channel.send(f"Added {rolename} to {user.name}")
-                        except:
-                            pass
-
+                    await self.handleAddState(reaction, user)
                 if self._currentState[user.id]["state"] == "remove":
-                    try:
-                        rolename = self._availableRoles["languages"][reaction.emoji]
-                        role = discord.utils.get(user.roles, name=rolename)
-                        await user.remove_roles(role)
-                        await msg.channel.send(f"Removed {rolename}")
-                    except:
-                        try:
-                            rolename = self._availableRoles["other"][reaction.emoji]
-                            role = discord.utils.get(user.roles, name=rolename)
-                            await user.remove_roles(role)
-                            await msg.channel.send(f"Removed {rolename}")
-                        except:
-                            pass
-
+                    await self.handleRemoveState(reaction, user)
                 if self._currentState[user.id]["state"] == "removeall":
-                    pass
+                    await self.handleRemoveAllState(reaction, user)
     
+    async def handleAddState(self, reaction, user):
+        try:
+            rolename = self._availableRoles["languages"][reaction.emoji]
+            role = discord.utils.get(reaction.message.guild.roles, name=rolename)
+            await user.add_roles(role)
+            await reaction.message.channel.send(f"Added {rolename} to {user.name}")
+        except:
+            try:
+                rolename = self._availableRoles["other"][reaction.emoji]
+                role = discord.utils.get(reaction.message.guild.roles, name=rolename)
+                await user.add_roles(role)
+                await reaction.message.channel.send(f"Added {rolename} to {user.name}")
+            except:
+                pass
+    
+    async def handleRemoveState(self, reaction, user):
+        try:
+            rolename = self._availableRoles["languages"][reaction.emoji]
+            role = discord.utils.get(user.roles, name=rolename)
+            await user.remove_roles(role)
+            await reaction.message.channel.send(f"Removed {rolename}")
+        except:
+            try:
+                rolename = self._availableRoles["other"][reaction.emoji]
+                role = discord.utils.get(user.roles, name=rolename)
+                await user.remove_roles(role)
+                await reaction.message.channel.send(f"Removed {rolename}")
+            except:
+                pass
+    
+    async def handleRemoveAllState(self, reaction, user):
+        pass
 
         # {
         #     "9348910934134": {

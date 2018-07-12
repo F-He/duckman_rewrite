@@ -5,6 +5,7 @@
 .idea/misc.xml
 .idea/duckman_rewrite.iml
 secrets.py
+*.pyc
 
 src/__pycache__/embeds.cpython-36.pyc
 __pycache__/embeds.cpython-36.pyc
@@ -15,3 +16,5 @@ src/__pycache__/secrets.cpython-36.pyc
 src/__pycache__/levelSystem.cpython-36.pyc
 src/__pycache__/currency.cpython-36.pyc
 src/__pycache__/utils.cpython-36.pyc
+src/__pycache__/*
+src/__pycache__/role.cpython-36.pyc
