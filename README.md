@@ -2,7 +2,7 @@
 
 The [Duckman Community Bot](https://github.com/Grewoss/duckman-python_bot) rewritten in Python using the [discord.py command ext](https://discordpy.readthedocs.io/en/rewrite/ext/commands/index.html).
 
-Duckman is a community bot created for the [Grewoss Discord Server](https://discord.gg/XW3a27Z)!  
+Duckman is a community bot created for the [C0de C4ve Discord Server](https://discord.gg/XW3a27Z)!  
 You are free to fork and do basically anythings with this Repository, but keep the [License](https://github.com/Grewoss/duckman_rewrite/blob/master/LICENSE) in mind.  
 I would appreciate if you send me a message on Discord if you use this code so i can check out your Version!
 
@@ -55,7 +55,7 @@ If you want to create an Embed for the Chat please use the `generateEmbed` funct
 
 ## Authors
 
-* [**Grewoss**](https://github.com/Grewoss)
+* [**F-He**](https://github.com/F-He)
 
 See also the list of [contributors](https://github.com/Grewoss/duckman_rewrite/contributors) who participated in this project.
 
